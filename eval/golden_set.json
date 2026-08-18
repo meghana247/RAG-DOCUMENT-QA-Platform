@@ -1,0 +1,38 @@
+{
+  "description": "Labelled questions for retrieval evaluation. Each question lists substrings that a correct passage must contain. Substring matching is a proxy for human relevance labels: cheap, deterministic, and good enough to compare configurations against each other. Replace these with questions over your own corpus.",
+  "questions": [
+    {
+      "id": "exact-identifier",
+      "question": "What is invoice number INV-2024-0871 for?",
+      "must_contain": ["INV-2024-0871"],
+      "rationale": "Exact identifier. Pure vector search typically misses these; the keyword leg exists for this case."
+    },
+    {
+      "id": "paraphrase",
+      "question": "How do I cancel my subscription?",
+      "must_contain": ["terminate", "cancel"],
+      "match": "any",
+      "rationale": "Wording differs from the document. Keyword search alone fails; the vector leg carries this one."
+    },
+    {
+      "id": "acronym",
+      "question": "What does the SLA guarantee for uptime?",
+      "must_contain": ["SLA"],
+      "rationale": "Acronyms embed poorly but match lexically."
+    },
+    {
+      "id": "multi-hop",
+      "question": "Compare the Q1 and Q2 revenue figures",
+      "must_contain": ["Q1", "Q2"],
+      "match": "all",
+      "rationale": "Needs two distinct passages. Tests whether MMR keeps the result set diverse instead of returning five copies of the Q1 paragraph."
+    },
+    {
+      "id": "unanswerable",
+      "question": "What is the airspeed velocity of an unladen swallow?",
+      "must_contain": [],
+      "expect_no_results": true,
+      "rationale": "Nothing should clear the relevance floor. A system that always returns its top-k will hallucinate here."
+    }
+  ]
+}

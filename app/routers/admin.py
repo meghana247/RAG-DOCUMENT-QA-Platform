@@ -1,30 +1,38 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-from typing import List
-from app.database import get_db
+from fastapi import APIRouter
+
+from app.core.dependencies import AdminUser, DbSession, PaginationDep
+from app.repositories.document_repository import DocumentRepository
+from app.repositories.user_repository import UserRepository
 from app.schemas.auth import UserResponse
+from app.schemas.common import Page
 from app.schemas.document import DocumentResponse
-from app.dependencies import require_admin
-from app.models.user import User
-from app.models.document import Document
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
 
-@router.get("/users", response_model=List[UserResponse])
-async def list_all_users(
-    db: AsyncSession = Depends(get_db),
-    _: User = Depends(require_admin),
-):
-    result = await db.execute(select(User).order_by(User.created_at.desc()))
-    return result.scalars().all()
+@router.get("/users", response_model=Page[UserResponse])
+async def list_users(
+    session: DbSession, _: AdminUser, page: PaginationDep
+) -> Page[UserResponse]:
+    repository = UserRepository(session)
+    users = await repository.list_all(page.limit, page.offset)
+    return Page[UserResponse](
+        items=[UserResponse.model_validate(u) for u in users],
+        total=await repository.count(),
+        limit=page.limit,
+        offset=page.offset,
+    )
 
 
-@router.get("/documents", response_model=List[DocumentResponse])
-async def list_all_documents(
-    db: AsyncSession = Depends(get_db),
-    _: User = Depends(require_admin),
-):
-    result = await db.execute(select(Document).order_by(Document.created_at.desc()))
-    return result.scalars().all()
+@router.get("/documents", response_model=Page[DocumentResponse])
+async def list_documents(
+    session: DbSession, _: AdminUser, page: PaginationDep
+) -> Page[DocumentResponse]:
+    repository = DocumentRepository(session)
+    documents = await repository.list_all(page.limit, page.offset)
+    return Page[DocumentResponse](
+        items=[DocumentResponse.model_validate(d) for d in documents],
+        total=await repository.count_all(),
+        limit=page.limit,
+        offset=page.offset,
+    )

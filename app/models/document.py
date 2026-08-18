@@ -1,36 +1,128 @@
+import enum
 import uuid
-from datetime import datetime
-from sqlalchemy import String, DateTime, ForeignKey, Integer, Text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.dialects.postgresql import UUID
+
 from pgvector.sqlalchemy import Vector
-from app.database import Base
-from app.config import settings
+from sqlalchemy import (
+    BigInteger,
+    Computed,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.dialects.postgresql import TSVECTOR, UUID
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.core.config import get_settings
+from app.core.database import Base
+from app.models.base import TimestampMixin, UUIDPrimaryKey
+
+_EMBEDDING_DIM = get_settings().embedding.dim
 
 
-class Document(Base):
+class DocumentStatus(str, enum.Enum):
+    PENDING = "pending"
+    PROCESSING = "processing"
+    READY = "ready"
+    FAILED = "failed"
+
+
+class Document(Base, UUIDPrimaryKey, TimestampMixin):
     __tablename__ = "documents"
+    __table_args__ = (
+        # Re-uploading an identical file is a no-op instead of a second copy and
+        # a second embedding bill. Scoped per user so tenants stay independent.
+        UniqueConstraint("user_id", "content_hash", name="uq_documents_user_content"),
+        Index("ix_documents_user_created", "user_id", "created_at"),
+    )
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
     filename: Mapped[str] = mapped_column(String(255), nullable=False)
     content_type: Mapped[str] = mapped_column(String(100), nullable=False)
-    total_chunks: Mapped[int] = mapped_column(Integer, default=0)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    size_bytes: Mapped[int] = mapped_column(BigInteger, nullable=False, default=0)
+
+    # sha256 of the raw bytes.
+    content_hash: Mapped[str] = mapped_column(String(64), nullable=False)
+
+    status: Mapped[str] = mapped_column(
+        String(20), nullable=False, default=DocumentStatus.PENDING.value, index=True
+    )
+    error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    total_chunks: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    page_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     user = relationship("User", back_populates="documents")
-    chunks = relationship("DocumentChunk", back_populates="document", cascade="all, delete-orphan")
+    chunks = relationship(
+        "DocumentChunk", back_populates="document", cascade="all, delete-orphan"
+    )
     chat_sessions = relationship("ChatSession", back_populates="document")
 
+    def __repr__(self) -> str:  # pragma: no cover - debugging aid
+        return f"<Document {self.filename} status={self.status} chunks={self.total_chunks}>"
 
-class DocumentChunk(Base):
+
+class DocumentChunk(Base, UUIDPrimaryKey):
     __tablename__ = "document_chunks"
+    __table_args__ = (
+        # ANN index for semantic search. HNSW beats IVFFlat on recall at this
+        # scale and needs no training pass, so it can be built on an empty table.
+        Index(
+            "ix_chunks_embedding_hnsw",
+            "embedding",
+            postgresql_using="hnsw",
+            postgresql_with={"m": 16, "ef_construction": 64},
+            postgresql_ops={"embedding": "vector_cosine_ops"},
+        ),
+        # Full-text half of hybrid retrieval.
+        Index("ix_chunks_content_tsv", "content_tsv", postgresql_using="gin"),
+        # Every retrieval filters on user_id, and optionally document_id.
+        Index("ix_chunks_user_document", "user_id", "document_id"),
+        UniqueConstraint("document_id", "chunk_index", name="uq_chunk_document_index"),
+    )
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    document_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("documents.id", ondelete="CASCADE"), nullable=False, index=True)
-    user_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    document_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    # Denormalised from documents so tenant filtering never needs a join — the
+    # join would defeat the HNSW index on the hot retrieval path.
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+
     content: Mapped[str] = mapped_column(Text, nullable=False)
     chunk_index: Mapped[int] = mapped_column(Integer, nullable=False)
-    embedding: Mapped[list] = mapped_column(Vector(settings.embedding_dim), nullable=True)
+
+    # Provenance, so a citation can say "page 7" instead of "chunk 42".
+    page_number: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    section: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    char_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+
+    embedding: Mapped[list[float]] = mapped_column(
+        Vector(_EMBEDDING_DIM), nullable=True
+    )
+
+    # Generated by Postgres, so it can never drift out of sync with `content`.
+    content_tsv: Mapped[str | None] = mapped_column(
+        TSVECTOR,
+        Computed("to_tsvector('english', content)", persisted=True),
+        nullable=True,
+    )
 
     document = relationship("Document", back_populates="chunks")
+
+    def __repr__(self) -> str:  # pragma: no cover - debugging aid
+        return f"<DocumentChunk doc={self.document_id} idx={self.chunk_index}>"

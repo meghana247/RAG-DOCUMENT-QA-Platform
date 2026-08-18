@@ -1,311 +1,263 @@
 # RAG Document Q&A Platform
 
-A production-ready, multi-tenant **Retrieval-Augmented Generation (RAG)** platform that lets users upload documents and have intelligent conversations with them — powered by vector similarity search, semantic embeddings, and Groq's blazing-fast LLM inference.
+Multi-tenant retrieval-augmented question answering over uploaded documents.
+FastAPI, Postgres + pgvector, hybrid dense/lexical retrieval, and Groq for
+generation.
+
+Upload a PDF, DOCX or TXT, ask questions in natural language, get answers grounded
+in the document with citations that point at a **page**. Every user's data is
+isolated at the query level.
 
 ---
 
-## What It Does
+## What makes the retrieval good
 
-Upload a PDF, DOCX, or TXT file, ask questions in natural language, and get accurate answers grounded in your document — with source citations pointing to the exact chunk the answer came from. Every user's data is fully isolated; no one can access another user's documents or chat history.
-
----
-
-## Architecture Overview
+The naive pipeline — chunk every 500 characters, embed, take the top 5 by cosine
+distance — fails in specific, predictable ways. Each stage below exists to fix one
+of them.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        Client / Postman                      │
-└────────────────────────────┬────────────────────────────────┘
-                             │ HTTPS REST
-┌────────────────────────────▼────────────────────────────────┐
-│                    FastAPI Application                       │
-│                                                              │
-│  ┌──────────┐  ┌───────────┐  ┌──────────┐  ┌──────────┐  │
-│  │   Auth   │  │ Documents │  │   Chat   │  │  Admin   │  │
-│  │  Router  │  │  Router   │  │  Router  │  │  Router  │  │
-│  └──────────┘  └─────┬─────┘  └────┬─────┘  └──────────┘  │
-│                       │             │                        │
-│          ┌────────────▼─────────────▼──────────┐            │
-│          │           Service Layer              │            │
-│          │  ┌────────────┐  ┌───────────────┐  │            │
-│          │  │  Document  │  │  RAG Service  │  │            │
-│          │  │  Service   │  │  (Retrieval + │  │            │
-│          │  │ (Extract → │  │   Generation) │  │            │
-│          │  │  Chunk →   │  └──────┬────────┘  │            │
-│          │  │  Embed)    │         │            │            │
-│          │  └────────────┘         │            │            │
-│          └─────────────────────────────────────┘             │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-          ┌────────────┴────────────┐
-          │                         │
-┌─────────▼──────────┐   ┌─────────▼──────────┐
-│   PostgreSQL 16     │   │     Groq API        │
-│   + pgvector        │   │  (LLaMA 3.3 70B)   │
-│                     │   │                     │
-│  • users            │   │  Fast LLM inference │
-│  • documents        │   │  with chat history  │
-│  • document_chunks  │   │  and source context │
-│    (384-dim vectors)│   └─────────────────────┘
-│  • chat_sessions    │
-│  • chat_messages    │
-└─────────────────────┘
+question
+   │
+   ├─ contextualise ......... rewrite follow-ups into standalone queries
+   ├─ embed ................. cached, off the event loop
+   │
+   ├─ retrieve (one SQL round trip)
+   │     ├─ dense leg ....... pgvector HNSW, cosine
+   │     ├─ lexical leg ..... Postgres FTS, ts_rank_cd
+   │     └─ fuse ............ reciprocal rank fusion
+   │
+   ├─ relevance floor ....... drop weak matches → honest refusal
+   ├─ MMR ................... diversify away near-duplicates
+   ├─ rerank ................ cross-encoder over ~20 survivors
+   │
+   └─ generate .............. numbered citations, bounded context
 ```
 
----
-
-## Key Features
-
-| Feature | Details |
+| Stage | Problem it solves |
 |---|---|
-| **Multi-tenant isolation** | Every query, chunk, and session is scoped to the authenticated user — strict per-user data separation enforced at the database level |
-| **Semantic search** | Documents are chunked and embedded using `all-MiniLM-L6-v2`; queries use cosine similarity via pgvector to retrieve the top-K most relevant chunks |
-| **Cited answers** | Every LLM response includes source metadata — filename, chunk index, and a content preview — so answers are always traceable |
-| **Conversational memory** | The last 10 messages of a chat session are included in the LLM prompt, enabling multi-turn conversations |
-| **Multi-format support** | Parses PDF, DOCX, and plain text files out of the box |
-| **JWT authentication** | Stateless token-based auth with role-based access control (`user` / `admin`) |
-| **Admin panel** | Admins can view all users and all documents across the platform |
-| **Docker-first** | Single `docker compose up` spins up the full stack — app + pgvector database |
-| **Async throughout** | Built on async SQLAlchemy + asyncpg for non-blocking I/O end to end |
+| **HNSW index** | Without an ANN index every query is a sequential scan computing exact cosine distance over every chunk the user owns. Measured on 20k chunks: **33ms → 17ms**, and the gap grows linearly because the scan is O(n). |
+| **Hybrid retrieval** | Embeddings are weak on exact tokens — invoice numbers, error codes, surnames, acronyms — which is precisely what users type. Postgres FTS is strong there and weak on paraphrase. Fusing both recovers each. |
+| **Reciprocal Rank Fusion** | Cosine similarity (0–1) and `ts_rank_cd` (unbounded) are not comparable, so blending them with weights needs per-corpus tuning. RRF combines by *rank* and needs none. |
+| **Relevance floor** | Top-k always returns k results, so an off-topic question yields the least-bad matches and a confident hallucination. Below-threshold results are dropped; empty context short-circuits to a refusal and skips the LLM call entirely. |
+| **MMR** | Chunk overlap guarantees near-duplicates. Without diversification the top-k fills with the same paragraph and the other slots are wasted. |
+| **Cross-encoder rerank** | Retrieval scores query and chunk independently. A cross-encoder reads the pair together — too slow for a corpus, ideal over 20 candidates. Degrades gracefully to fusion order if the model is unavailable. |
+| **Structure-aware chunking** | Character slicing splits mid-word and mid-sentence, so a chunk's embedding describes two half-thoughts and matches neither. Chunks now land on paragraph/sentence boundaries, never span a page, and carry page and section provenance. |
+| **Query contextualisation** | "What about the second one?" carries no retrievable signal. Rewritten into a standalone query using recent turns before retrieval. |
+
+Retrieval is tunable entirely through environment variables — see `.env.example`.
+`RETRIEVAL__STRATEGY=vector` reproduces the naive behaviour for comparison.
 
 ---
 
-## Tech Stack
+## Measuring changes
 
-| Layer | Technology |
-|---|---|
-| **API Framework** | FastAPI 0.115 |
-| **Language** | Python 3.11 |
-| **Database** | PostgreSQL 16 + pgvector extension |
-| **ORM** | SQLAlchemy 2.0 (async) |
-| **Embeddings** | `sentence-transformers` — `all-MiniLM-L6-v2` (384 dimensions) |
-| **LLM** | Groq API — `llama-3.3-70b-versatile` |
-| **Auth** | JWT (python-jose) + bcrypt password hashing |
-| **Document parsing** | pypdf, python-docx |
-| **Containerization** | Docker + Docker Compose |
-| **ASGI Server** | Uvicorn |
-
----
-
-## How RAG Works in This Project
-
-```
-User uploads document
-        │
-        ▼
- Text Extraction (PDF / DOCX / TXT)
-        │
-        ▼
- Chunking  ──── 500 chars per chunk, 50-char overlap
-        │
-        ▼
- Embedding  ──── all-MiniLM-L6-v2 → 384-dim vectors
-        │
-        ▼
- Stored in PostgreSQL (pgvector)
-        │
-        │   User asks a question
-        │         │
-        │         ▼
-        │   Query is embedded
-        │         │
-        │         ▼
-        └──► Cosine similarity search → Top 5 chunks retrieved
-                  │
-                  ▼
-         Chunks + chat history injected into LLM prompt
-                  │
-                  ▼
-         Groq LLaMA 3.3 70B generates a cited answer
-                  │
-                  ▼
-         Response + sources saved to DB and returned
-```
-
----
-
-## Project Structure
-
-```
-rag-document-qa-platform/
-├── app/
-│   ├── main.py                  # FastAPI app + lifespan (DB init)
-│   ├── config.py                # Pydantic settings from .env
-│   ├── database.py              # Async SQLAlchemy engine + session
-│   ├── dependencies.py          # JWT token → current user dependency
-│   ├── models/
-│   │   ├── user.py              # User model (id, email, role, password_hash)
-│   │   ├── document.py          # Document + DocumentChunk (with vector column)
-│   │   └── chat.py              # ChatSession + ChatMessage (with sources JSON)
-│   ├── routers/
-│   │   ├── auth.py              # /auth/register, /auth/login, /auth/me
-│   │   ├── documents.py         # /documents/upload, GET /, DELETE /{id}
-│   │   ├── chat.py              # /chat/sessions CRUD + /messages
-│   │   └── admin.py             # /admin/users, /admin/documents
-│   ├── services/
-│   │   ├── auth_service.py      # Password hashing, JWT creation
-│   │   ├── document_service.py  # Extract → chunk → embed → store
-│   │   ├── embedding_service.py # SentenceTransformer wrapper (lazy-loaded)
-│   │   └── rag_service.py       # Vector retrieval + Groq LLM call
-│   └── schemas/
-│       ├── auth.py              # Request/response Pydantic models for auth
-│       ├── document.py          # Document schemas
-│       └── chat.py              # Chat session + message schemas
-├── Dockerfile                   # Bakes in the embedding model at build time
-├── docker-compose.yml           # App + pgvector services
-├── requirements.txt
-└── .env.example
-```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- [Docker](https://docs.docker.com/get-docker/) and Docker Compose
-- A free [Groq API key](https://console.groq.com/)
-
-### 1. Clone the repo
+Retrieval quality cannot be assessed by reading a few answers. `eval/` scores
+configurations against a labelled question set:
 
 ```bash
-git clone https://github.com/meghana247/RAG-DOCUMENT-QA-Platform.git
-cd RAG-DOCUMENT-QA-Platform
+python -m eval.run_eval --user-email you@example.com
 ```
 
-### 2. Configure environment
+```
+configuration              hit@k  recall@k    prec@k     MRR    nDCG    p50 ms    p95 ms
+------------------------------------------------------------------------------------------
+vector only                 ...       ...       ...      ...     ...       ...       ...
+keyword only                ...
+hybrid (RRF)                ...
+hybrid + MMR                ...
+hybrid + MMR + rerank       ...
+```
+
+Each row changes one variable from the row above, so a difference has one cause.
+Absolute numbers depend on your corpus; the comparison between rows is the point.
+Replace `eval/golden_set.json` with questions over your own documents — the
+shipped set is a template covering the cases that distinguish these strategies
+(exact identifier, paraphrase, acronym, multi-hop, unanswerable).
+
+Run it before and after any retrieval change. A change that improves five
+questions and quietly breaks twenty is not an improvement.
+
+---
+
+## Architecture
+
+```
+app/
+├── core/                  cross-cutting infrastructure
+│   ├── config.py          nested settings, validated at startup
+│   ├── container.py       composition root — models loaded once
+│   ├── database.py        engine, session factory, pooling
+│   ├── dependencies.py    FastAPI providers
+│   ├── exceptions.py      domain errors → HTTP, one response envelope
+│   ├── logging.py         JSON logs with request/user correlation
+│   ├── middleware.py      request IDs, access logs, rate limiting
+│   └── security.py        hashing, JWT
+├── rag/                   the pipeline — no HTTP, no ORM
+│   ├── protocols.py       Chunker / Embedder / Retriever / Reranker / Generator
+│   ├── types.py           value objects passed between stages
+│   ├── extraction.py      PDF/DOCX/TXT → blocks with page + section
+│   ├── chunking.py        recursive, boundary-aware
+│   ├── embeddings.py      threadpooled, LRU-cached
+│   ├── retrieval.py       hybrid SQL, RRF, MMR, relevance floor
+│   ├── reranking.py       cross-encoder, optional
+│   ├── contextualizer.py  follow-up rewriting
+│   ├── generation.py      prompt assembly, citations, streaming
+│   └── pipeline.py        orchestration + per-stage timings
+├── repositories/          queries only, never commit
+├── services/              business logic, owns transactions
+├── routers/               HTTP only
+├── schemas/               request/response contracts
+└── models/                SQLAlchemy tables
+migrations/                alembic — schema is never created at startup
+tests/                     82 tests; retrieval integration hits real Postgres
+eval/                      retrieval metrics + golden set
+```
+
+**Dependencies point inward.** Routers depend on services, services on
+repositories and the pipeline, the pipeline on protocols. `app/rag/` imports no
+HTTP framework and no router; it can be driven from a script, a test, or a queue
+worker.
+
+**Stages are protocols, not base classes.** Swapping the local embedder for a
+hosted API is one new module implementing `Embedder` plus one line in
+`container.py`. A test double is five lines.
+
+**Transactions belong to services.** Repositories flush, never commit, so one
+service call spanning several repositories is atomic.
+
+---
+
+## Running it
 
 ```bash
 cp .env.example .env
+# set SECURITY__SECRET_KEY and GROQ_API_KEY
+
+docker compose up --build -d
+docker compose exec api alembic upgrade head
 ```
 
-Edit `.env`:
+API at `http://localhost:8000`, docs at `/docs` (disabled when
+`ENVIRONMENT=production`).
 
-```env
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/ragdb
-SECRET_KEY=your-long-random-secret-key
-GROQ_API_KEY=your-groq-api-key-here
-```
-
-### 3. Start the stack
+Migrations are a deploy step, never a startup side effect: `create_all()` at boot
+races across replicas, cannot express an index build or a backfill, and offers no
+rollback.
 
 ```bash
-docker compose up --build
+make test     # pytest
+make lint     # ruff + mypy
+make eval     # score retrieval
+make help     # everything else
 ```
 
-> The first build downloads the `all-MiniLM-L6-v2` embedding model into the image so the first request isn't slow.
-
-The API is now live at **`http://localhost:8000`**
-
----
-
-## API Reference
-
-Interactive docs available at `http://localhost:8000/docs` (Swagger UI).
-
-### Authentication
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/auth/register` | Create a new user account |
-| `POST` | `/auth/login` | Login and receive a JWT token |
-| `GET` | `/auth/me` | Get the current user's profile |
-
-### Documents
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/documents/upload` | Upload a PDF, DOCX, or TXT file |
-| `GET` | `/documents/` | List all documents for the current user |
-| `DELETE` | `/documents/{id}` | Delete a document and all its chunks |
-
-### Chat
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/chat/sessions` | Create a new chat session (optionally scoped to a document) |
-| `GET` | `/chat/sessions` | List all sessions for the current user |
-| `POST` | `/chat/sessions/{id}/messages` | Send a message and get an AI answer with sources |
-| `GET` | `/chat/sessions/{id}/messages` | Retrieve full message history for a session |
-| `DELETE` | `/chat/sessions/{id}` | Delete a session and its messages |
-
-### Admin
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/admin/users` | List all registered users |
-| `GET` | `/admin/documents` | List all documents across all users |
-
----
-
-## End-to-End Walkthrough (curl)
+### Local development without Docker
 
 ```bash
-# 1. Register
-curl -X POST http://localhost:8000/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"email": "you@example.com", "password": "secret123"}'
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt
+alembic upgrade head
+uvicorn app.main:app --reload
+```
 
-# 2. Login → grab token
-TOKEN=$(curl -s -X POST http://localhost:8000/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email": "you@example.com", "password": "secret123"}' | jq -r .access_token)
+### Running the integration tests
 
-# 3. Upload a document
-DOC_ID=$(curl -s -X POST http://localhost:8000/documents/upload \
-  -H "Authorization: Bearer $TOKEN" \
-  -F "file=@report.pdf" | jq -r .id)
+The hybrid query cannot be tested against SQLite or a mock — CTE fusion,
+`websearch_to_tsquery`, the generated tsvector column and pgvector's distance
+operator are all Postgres-specific:
 
-# 4. Start a chat session scoped to that document
-SESSION_ID=$(curl -s -X POST http://localhost:8000/chat/sessions \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d "{\"title\": \"Report Analysis\", \"document_id\": \"$DOC_ID\"}" | jq -r .id)
-
-# 5. Ask a question
-curl -s -X POST http://localhost:8000/chat/sessions/$SESSION_ID/messages \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"content": "What are the key findings in this report?"}' | jq
+```bash
+docker run -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=ragdb \
+    -p 55432:5432 pgvector/pgvector:pg16
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:55432/ragdb \
+    alembic upgrade head
+TEST_DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:55432/ragdb \
+    pytest
 ```
 
 ---
 
-## Configuration Reference
+## API
 
-All settings are controlled via environment variables (or `.env`):
+| Method | Path | Notes |
+|---|---|---|
+| `POST` | `/auth/register` | |
+| `POST` | `/auth/login` | Returns a bearer token and its expiry |
+| `GET` | `/auth/me` | |
+| `POST` | `/documents/upload` | **202** — ingestion is asynchronous |
+| `GET` | `/documents/{id}` | Poll until `status` is `ready` |
+| `GET` | `/documents` | Paginated |
+| `DELETE` | `/documents/{id}` | |
+| `POST` | `/chat/sessions` | Optionally scoped to one document |
+| `POST` | `/chat/sessions/{id}/messages` | Answer + citations + timings |
+| `POST` | `/chat/sessions/{id}/messages/stream` | SSE: `sources`, `token`…, `done` |
+| `GET` | `/chat/sessions/{id}/messages` | Paginated |
+| `GET` | `/admin/users`, `/admin/documents` | Admin role required |
+| `GET` | `/health` | Liveness — touches no dependency |
+| `GET` | `/health/ready` | Readiness — probes the database |
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DATABASE_URL` | `postgresql+asyncpg://...` | Async PostgreSQL connection string |
-| `SECRET_KEY` | *(required)* | JWT signing secret |
-| `GROQ_API_KEY` | *(required)* | Your Groq API key |
-| `GROQ_MODEL` | `llama-3.3-70b-versatile` | Groq model to use for generation |
-| `EMBEDDING_MODEL` | `all-MiniLM-L6-v2` | SentenceTransformer model |
-| `EMBEDDING_DIM` | `384` | Vector dimension (must match model) |
-| `CHUNK_SIZE` | `500` | Characters per document chunk |
-| `CHUNK_OVERLAP` | `50` | Overlap between consecutive chunks |
-| `TOP_K_CHUNKS` | `5` | Number of chunks retrieved per query |
-| `ACCESS_TOKEN_EXPIRE_MINUTES` | `60` | JWT expiry window |
+Upload returns 202 because extraction, chunking and embedding take seconds; doing
+that inside the request holds a database transaction open for its duration. The
+same bytes uploaded twice are deduplicated by SHA-256 and cost nothing.
+
+Liveness deliberately does not check the database: a liveness probe that fails on
+a database blip restarts a healthy process and turns a recoverable outage into a
+crash loop.
+
+All errors share one envelope:
+
+```json
+{ "error": { "code": "not_found", "message": "Document not found" } }
+```
 
 ---
 
-## Design Decisions
+## Operational notes
 
-**Why pgvector instead of a dedicated vector DB?**
-Keeping vectors in PostgreSQL alongside relational data means no cross-service joins, simpler transactions, and one less infrastructure dependency. For most document Q&A workloads, pgvector's cosine similarity performance is more than sufficient.
+**Scaling.** Each worker loads its own copy of the embedding model, so scale with
+replicas and keep `--workers 1`. Embedding and reranking run in a bounded
+threadpool — they are CPU-bound, and running them on the event loop stalls every
+concurrent request.
 
-**Why Groq?**
-Groq's LPU inference is significantly faster than GPU-based providers for the same model, making the chat feel responsive without streaming complexity.
+**Serverless / external pooler.** Set `DB__POOL_SIZE=0` (NullPool) and
+`DB__DISABLE_STATEMENT_CACHE=true` when connecting through pgbouncer, Neon's
+pooled endpoint, or from a serverless platform.
 
-**Why chunk overlap?**
-A 50-character overlap ensures that a sentence spanning a chunk boundary isn't cut off from its context in retrieval.
+**Rate limiting** is in-process, so the effective limit is `replicas × limit`. It
+protects one instance from a runaway client; move the counters to Redis before
+relying on it for abuse prevention.
 
-**Why bake the embedding model into the Docker image?**
-The first request would otherwise trigger a ~90MB model download inside the container. Baking it in trades a larger image for instant startup.
+**Background ingestion** uses in-process tasks, which do not survive a restart. A
+document stuck in `processing` should be re-uploaded — the duplicate-hash path
+makes that cheap. Swapping in Celery or arq changes one function,
+`_ingest_in_background`.
+
+**Changing the embedding model** requires a migration to resize the `vector`
+column and a full re-embed of every chunk. Startup fails fast if the model's
+dimension disagrees with `EMBEDDING__DIM` rather than corrupting the index.
+
+**Changing chunk size** requires re-ingesting documents; existing chunks are not
+rewritten.
 
 ---
 
-## License
+## Configuration
 
-MIT
+Every knob is an environment variable, grouped with `__` nesting
+(`RETRIEVAL__TOP_K`, `DB__POOL_SIZE`). Flat legacy names — `DATABASE_URL`,
+`GROQ_API_KEY`, `SECRET_KEY` — are still honoured. See `.env.example` for the
+annotated list.
+
+Startup fails on a secret key under 32 characters or one still holding a
+placeholder, on a sync database driver, and on `candidate_k < top_k`. Failing at
+boot beats discovering it from production traffic.
+
+---
+
+## Stack
+
+FastAPI · Postgres 16 + pgvector (HNSW) · SQLAlchemy 2.0 async · Alembic ·
+sentence-transformers (`all-MiniLM-L6-v2`, 384-dim) ·
+`cross-encoder/ms-marco-MiniLM-L-6-v2` · Groq (`llama-3.3-70b-versatile`) ·
+JWT + bcrypt · Docker

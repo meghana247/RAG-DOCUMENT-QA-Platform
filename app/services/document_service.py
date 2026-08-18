@@ -1,79 +1,195 @@
-import io
+"""Document ingestion.
+
+Ingestion is split into a fast transactional part (record the upload) and a slow
+CPU-bound part (extract, chunk, embed). The router commits the first and schedules
+the second, so an upload responds in milliseconds instead of holding the request —
+and a database transaction — open for the length of an embedding run.
+
+The scheduling boundary is deliberately a single call, `process_document`, taking
+only a document id. Moving from in-process background tasks to a real queue
+(Celery, arq, RQ) is then a change of caller, not a change of logic.
+"""
+import hashlib
+import logging
 import uuid
-from typing import List
-from fastapi import UploadFile
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-from app.models.document import Document, DocumentChunk
-from app.services.embedding_service import generate_embeddings
-from app.config import settings
+
+from app.core.config import Settings
+from app.core.exceptions import (
+    DocumentProcessingError,
+    NotFoundError,
+    PayloadTooLargeError,
+    UnsupportedMediaTypeError,
+)
+from app.models.document import Document, DocumentStatus
+from app.rag.extraction import SUPPORTED_EXTENSIONS
+from app.rag.pipeline import RagPipeline
+from app.repositories.document_repository import DocumentRepository
+
+logger = logging.getLogger(__name__)
 
 
-def extract_text(content: bytes, content_type: str, filename: str) -> str:
-    if content_type == "application/pdf" or filename.endswith(".pdf"):
-        from pypdf import PdfReader
-        reader = PdfReader(io.BytesIO(content))
-        return "\n".join(page.extract_text() or "" for page in reader.pages)
-    if content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or filename.endswith(".docx"):
-        from docx import Document as DocxDoc
-        doc = DocxDoc(io.BytesIO(content))
-        return "\n".join(p.text for p in doc.paragraphs)
-    return content.decode("utf-8", errors="replace")
+class DocumentService:
+    def __init__(
+        self,
+        repository: DocumentRepository,
+        pipeline: RagPipeline,
+        settings: Settings,
+    ) -> None:
+        self._repository = repository
+        self._pipeline = pipeline
+        self._settings = settings
 
+    @staticmethod
+    def _validate_extension(filename: str) -> None:
+        suffix = ("." + filename.rsplit(".", 1)[-1].lower()) if "." in filename else ""
+        if suffix not in SUPPORTED_EXTENSIONS:
+            raise UnsupportedMediaTypeError(
+                f"Unsupported file type '{suffix or filename}'. "
+                f"Supported: {', '.join(sorted(SUPPORTED_EXTENSIONS))}"
+            )
 
-def chunk_text(text: str) -> List[str]:
-    text = " ".join(text.split())
-    chunks, start = [], 0
-    while start < len(text):
-        chunks.append(text[start: start + settings.chunk_size])
-        start += settings.chunk_size - settings.chunk_overlap
-    return [c for c in chunks if c.strip()]
+    async def register_upload(
+        self, *, user_id: uuid.UUID, filename: str, content_type: str, content: bytes
+    ) -> tuple[Document, bool]:
+        """Record an upload and return (document, is_new).
 
+        Returns the existing row when the same bytes have already been ingested,
+        so a duplicate upload costs nothing rather than re-embedding the file.
+        """
+        self._validate_extension(filename)
 
-async def process_document(db: AsyncSession, file: UploadFile, user_id: uuid.UUID) -> Document:
-    content = await file.read()
-    text = extract_text(content, file.content_type or "", file.filename or "")
-    chunks = chunk_text(text)
+        if len(content) > self._settings.max_upload_bytes:
+            raise PayloadTooLargeError(
+                f"File is {len(content) // 1024}KB; the limit is "
+                f"{self._settings.max_upload_bytes // 1024}KB"
+            )
+        if not content:
+            raise DocumentProcessingError("The uploaded file is empty")
 
-    doc = Document(
-        user_id=user_id,
-        filename=file.filename,
-        content_type=file.content_type or "text/plain",
-        total_chunks=len(chunks),
-    )
-    db.add(doc)
-    await db.flush()
+        content_hash = hashlib.sha256(content).hexdigest()
 
-    embeddings = generate_embeddings(chunks)
-    for i, (chunk, emb) in enumerate(zip(chunks, embeddings)):
-        db.add(DocumentChunk(
-            document_id=doc.id,
+        if existing := await self._repository.get_by_hash(user_id, content_hash):
+            logger.info(
+                "duplicate upload ignored",
+                extra={"document_id": str(existing.id), "status": existing.status},
+            )
+            if existing.status == DocumentStatus.FAILED.value:
+                # Let a previously failed ingest be retried.
+                existing.status = DocumentStatus.PENDING.value
+                existing.error_message = None
+                await self._repository.session.commit()
+                return existing, True
+            return existing, False
+
+        document = Document(
             user_id=user_id,
-            content=chunk,
-            chunk_index=i,
-            embedding=emb,
-        ))
+            filename=filename[:255],
+            content_type=content_type or "application/octet-stream",
+            size_bytes=len(content),
+            content_hash=content_hash,
+            status=DocumentStatus.PENDING.value,
+        )
+        await self._repository.add(document)
+        await self._repository.session.commit()
+        return document, True
 
-    await db.commit()
-    await db.refresh(doc)
-    return doc
+    async def process_document(self, document_id: uuid.UUID, content: bytes) -> Document:
+        """Extract, chunk, embed and store. Safe to retry.
 
+        Runs outside the request's transaction. Failures are recorded on the row
+        rather than raised into the void, so a client polling status sees *why*
+        ingestion failed instead of a document stuck on "pending" forever.
+        """
+        document = await self._repository.get(document_id)
+        if document is None:
+            raise NotFoundError("Document not found")
 
-async def get_user_documents(db: AsyncSession, user_id: uuid.UUID) -> List[Document]:
-    result = await db.execute(
-        select(Document).where(Document.user_id == user_id).order_by(Document.created_at.desc())
-    )
-    return result.scalars().all()
+        document.status = DocumentStatus.PROCESSING.value
+        await self._repository.session.commit()
 
+        try:
+            chunks, page_count = self._pipeline.chunk_document(
+                content, document.filename, document.content_type
+            )
+            if not chunks:
+                raise DocumentProcessingError("The document produced no usable text")
 
-async def delete_document(db: AsyncSession, doc_id: uuid.UUID, user_id: uuid.UUID, is_admin: bool = False) -> bool:
-    query = select(Document).where(Document.id == doc_id)
-    if not is_admin:
-        query = query.where(Document.user_id == user_id)
-    result = await db.execute(query)
-    doc = result.scalar_one_or_none()
-    if not doc:
-        return False
-    await db.delete(doc)
-    await db.commit()
-    return True
+            embeddings = await self._pipeline.embed_chunks(chunks)
+
+            # Idempotency: clear any chunks from a previous attempt before writing.
+            await self._repository.delete_chunks(document.id)
+            await self._repository.bulk_insert_chunks(
+                [
+                    {
+                        "id": uuid.uuid4(),
+                        "document_id": document.id,
+                        "user_id": document.user_id,
+                        "content": chunk.content,
+                        "chunk_index": chunk.index,
+                        "page_number": chunk.page_number,
+                        "section": chunk.section,
+                        "char_count": chunk.char_count,
+                        "embedding": embedding,
+                    }
+                    for chunk, embedding in zip(chunks, embeddings, strict=False)
+                ]
+            )
+
+            document.total_chunks = len(chunks)
+            document.page_count = page_count
+            document.status = DocumentStatus.READY.value
+            document.error_message = None
+            await self._repository.session.commit()
+
+            logger.info(
+                "document ingested",
+                extra={
+                    "document_id": str(document.id),
+                    "chunks": len(chunks),
+                    "pages": page_count,
+                    "bytes": document.size_bytes,
+                },
+            )
+            return document
+
+        except Exception as exc:
+            await self._repository.session.rollback()
+            document = await self._repository.get(document_id)
+            if document is not None:
+                document.status = DocumentStatus.FAILED.value
+                # Bounded: the column is Text, but an enormous driver traceback
+                # in an API response is noise.
+                document.error_message = str(exc)[:1000]
+                await self._repository.session.commit()
+            logger.error(
+                "document ingestion failed",
+                exc_info=exc,
+                extra={"document_id": str(document_id)},
+            )
+            raise
+
+    async def get(self, document_id: uuid.UUID, user_id: uuid.UUID) -> Document:
+        document = await self._repository.get(document_id, user_id)
+        if document is None:
+            raise NotFoundError("Document not found")
+        return document
+
+    async def list_for_user(
+        self, user_id: uuid.UUID, limit: int, offset: int
+    ) -> tuple[list[Document], int]:
+        return (
+            await self._repository.list_for_user(user_id, limit, offset),
+            await self._repository.count_for_user(user_id),
+        )
+
+    async def delete(
+        self, document_id: uuid.UUID, user_id: uuid.UUID, is_admin: bool = False
+    ) -> None:
+        document = await self._repository.get(
+            document_id, None if is_admin else user_id
+        )
+        if document is None:
+            raise NotFoundError("Document not found")
+        await self._repository.remove(document)
+        await self._repository.session.commit()
+        logger.info("document deleted", extra={"document_id": str(document_id)})

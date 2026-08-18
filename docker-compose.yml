@@ -1,33 +1,38 @@
-version: "3.9"
-
 services:
   db:
+    # pgvector is not in the stock postgres image; this variant ships the extension.
     image: pgvector/pgvector:pg16
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: ragdb
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ragdb"]
       interval: 5s
-      timeout: 5s
-      retries: 5
+      timeout: 3s
+      retries: 10
 
-  app:
+  api:
     build: .
+    env_file: .env
+    environment:
+      # Overrides .env so the container reaches the db service rather than localhost.
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/ragdb
     ports:
       - "8000:8000"
-    env_file:
-      - .env
     depends_on:
       db:
+        # Waiting for "started" is not enough: Postgres accepts TCP before it
+        # accepts queries, so migrations would fail on a cold volume.
         condition: service_healthy
     volumes:
-      - ./app:/app/app
+      # Model cache survives rebuilds, so an image rebuild does not re-download.
+      - hfcache:/home/app/.cache/huggingface
 
 volumes:
-  postgres_data:
+  pgdata:
+  hfcache:
