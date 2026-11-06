@@ -1,0 +1,5993 @@
+{
+  "generated_at": "2026-11-06T12:36:22+00:00",
+  "git_revision": "b7c3c39",
+  "python": "3.11.15",
+  "golden_set": "golden_set.json",
+  "corpus": [
+    "nist-ai-600-1-genai-profile.pdf",
+    "nist-ai-rmf-1.0.pdf",
+    "nist-csf-2.0.pdf"
+  ],
+  "indexed_chunks": 386,
+  "questions": 36,
+  "settings": {
+    "embedding_model": "all-MiniLM-L6-v2",
+    "rerank_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "chunking": {
+      "chunk_size": 1200,
+      "chunk_overlap": 180,
+      "min_chunk_size": 100
+    },
+    "retrieval": {
+      "top_k": 6,
+      "candidate_k": 40,
+      "rrf_k": 60,
+      "hnsw_ef_search": 200,
+      "mmr_lambda": 0.7,
+      "min_similarity": 0.25,
+      "rerank_candidates": 20
+    }
+  },
+  "results": [
+    {
+      "configuration": "vector only",
+      "overrides": {
+        "strategy": "vector",
+        "mmr_enabled": false,
+        "rerank_enabled": false
+      },
+      "metrics": {
+        "name": "vector only",
+        "questions": 31,
+        "hit_rate": 0.5806,
+        "recall_at_k": 0.5323,
+        "precision_at_k": 0.0968,
+        "mrr": 0.3989,
+        "ndcg": 0.4263,
+        "p50_latency_ms": 11.4863,
+        "p95_latency_ms": 21.7973,
+        "unanswerable": 5,
+        "refusal_rate": 0.8
+      },
+      "by_category": {
+        "acronym": {
+          "questions": 3,
+          "hit_rate": 0.6667,
+          "recall": 0.6667
+        },
+        "definition": {
+          "questions": 8,
+          "hit_rate": 0.75,
+          "recall": 0.75
+        },
+        "exact-identifier": {
+          "questions": 6,
+          "hit_rate": 0.5,
+          "recall": 0.5
+        },
+        "multi-hop": {
+          "questions": 4,
+          "hit_rate": 0.75,
+          "recall": 0.375
+        },
+        "paraphrase": {
+          "questions": 10,
+          "hit_rate": 0.4,
+          "recall": 0.4
+        },
+        "unanswerable": {
+          "questions": 5,
+          "refusal_rate": 0.8
+        }
+      },
+      "questions": [
+        {
+          "id": "rmf-govern-1-6",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 2,
+              "page": 3
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 97,
+              "page": 39
+            }
+          ]
+        },
+        {
+          "id": "rmf-manage-1-4",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 93,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 94,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 122,
+              "page": 44
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 39,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 69,
+              "page": 28
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 92,
+              "page": 37
+            }
+          ]
+        },
+        {
+          "id": "rmf-measure-2-11",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 5,
+              "page": 4
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 82,
+              "page": 33
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 84,
+              "page": 34
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 117,
+              "page": 42
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 140,
+              "page": 50
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 77,
+              "page": 27
+            }
+          ]
+        },
+        {
+          "id": "csf-gv-sc",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 48,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 3,
+              "page": 2
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 15,
+              "page": 7
+            }
+          ]
+        },
+        {
+          "id": "csf-pr-aa",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 60,
+              "page": 24
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 80,
+              "page": 32
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 50,
+              "page": 16
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 57,
+              "page": 23
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 32,
+              "page": 14
+            }
+          ]
+        },
+        {
+          "id": "gai-executive-order",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 179,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 52,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 70,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "rmf-tevv",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 101,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 102,
+              "page": 41
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 54,
+              "page": 22
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 58,
+              "page": 24
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 51,
+              "page": 21
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 50,
+              "page": 21
+            }
+          ]
+        },
+        {
+          "id": "gai-cbrn",
+          "category": "acronym",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 63,
+              "page": 21
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 104,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 130,
+              "page": 46
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 97,
+              "page": 33
+            }
+          ]
+        },
+        {
+          "id": "csf-erm",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 37,
+              "page": 16
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 40,
+              "page": 17
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 72,
+              "page": 30
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 41,
+              "page": 17
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 118,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 17,
+              "page": 9
+            }
+          ]
+        },
+        {
+          "id": "risk-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 17,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 118,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 18,
+              "page": 9
+            }
+          ]
+        },
+        {
+          "id": "csf-community-profile",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 25,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 3,
+              "page": 2
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 24,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 48,
+              "page": 20
+            }
+          ]
+        },
+        {
+          "id": "csf-tiers",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 77,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 15,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 30,
+              "page": 13
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 11,
+              "page": 6
+            }
+          ]
+        },
+        {
+          "id": "csf-functions",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 23,
+              "page": 10
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 17,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 22,
+              "page": 10
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            }
+          ]
+        },
+        {
+          "id": "rmf-trustworthy-characteristics",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 37,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 14,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 38,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            }
+          ]
+        },
+        {
+          "id": "gai-profile-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 97,
+              "page": 39
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 94,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 32,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "gai-information-integrity",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 39,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 82,
+              "page": 28
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 41,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 93,
+              "page": 32
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 172,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 10,
+              "page": 6
+            }
+          ]
+        },
+        {
+          "id": "gai-hallucination",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 25,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 178,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 1,
+              "page": 2
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 165,
+              "page": 58
+            }
+          ]
+        },
+        {
+          "id": "rmf-voluntary",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 25,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 65,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 19,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 34,
+              "page": 15
+            }
+          ]
+        },
+        {
+          "id": "retiring-ai-systems",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 92,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 9,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 31,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 13,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 34,
+              "page": 15
+            }
+          ]
+        },
+        {
+          "id": "gai-environment",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 33,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 34,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 178,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 171,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 37,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 116,
+              "page": 41
+            }
+          ]
+        },
+        {
+          "id": "rmf-legislation",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 16,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 25,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            }
+          ]
+        },
+        {
+          "id": "gai-data-privacy",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 30,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 31,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 125,
+              "page": 45
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 53,
+              "page": 22
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 160,
+              "page": 56
+            }
+          ]
+        },
+        {
+          "id": "ai-actors",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 52,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 33,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 13,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 99,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 32,
+              "page": 14
+            }
+          ]
+        },
+        {
+          "id": "rmf-base-characteristic",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 38,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 39,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 37,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 41,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 39,
+              "page": 13
+            }
+          ]
+        },
+        {
+          "id": "gai-overreliance",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 177,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 29,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 41,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 167,
+              "page": 59
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 38,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 30,
+              "page": 11
+            }
+          ]
+        },
+        {
+          "id": "csf-supplier-expectations",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 55,
+              "page": 23
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 44,
+              "page": 18
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 70,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 71,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 50,
+              "page": 21
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 18,
+              "page": 8
+            }
+          ]
+        },
+        {
+          "id": "govern-rmf-vs-csf",
+          "category": "multi-hop",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 2,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 3,
+              "page": 2
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 46,
+              "page": 19
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 16,
+              "page": 8
+            }
+          ]
+        },
+        {
+          "id": "csf-current-vs-target",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 24,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 25,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            }
+          ]
+        },
+        {
+          "id": "gai-content-and-bias",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 5,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 27,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 85,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 102,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 46,
+              "page": 15
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 167,
+              "page": 59
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk-and-manage",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 50,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 66,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 15,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 11,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 96,
+              "page": 38
+            }
+          ]
+        },
+        {
+          "id": "oos-pizza",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-world-cup",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-kubernetes",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-gdpr",
+          "category": "unanswerable",
+          "refused": false,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 140,
+              "page": 50
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 87,
+              "page": 30
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 160,
+              "page": 56
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 103,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 98,
+              "page": 34
+            }
+          ]
+        },
+        {
+          "id": "oos-mercury",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        }
+      ]
+    },
+    {
+      "configuration": "keyword only",
+      "overrides": {
+        "strategy": "keyword",
+        "mmr_enabled": false,
+        "rerank_enabled": false
+      },
+      "metrics": {
+        "name": "keyword only",
+        "questions": 31,
+        "hit_rate": 0.2258,
+        "recall_at_k": 0.2258,
+        "precision_at_k": 0.0376,
+        "mrr": 0.2097,
+        "ndcg": 0.2139,
+        "p50_latency_ms": 4.405,
+        "p95_latency_ms": 5.7535,
+        "unanswerable": 5,
+        "refusal_rate": 1.0
+      },
+      "by_category": {
+        "acronym": {
+          "questions": 3,
+          "hit_rate": 0.3333,
+          "recall": 0.3333
+        },
+        "definition": {
+          "questions": 8,
+          "hit_rate": 0.375,
+          "recall": 0.375
+        },
+        "exact-identifier": {
+          "questions": 6,
+          "hit_rate": 0.3333,
+          "recall": 0.3333
+        },
+        "multi-hop": {
+          "questions": 4,
+          "hit_rate": 0.0,
+          "recall": 0.0
+        },
+        "paraphrase": {
+          "questions": 10,
+          "hit_rate": 0.1,
+          "recall": 0.1
+        },
+        "unanswerable": {
+          "questions": 5,
+          "refusal_rate": 1.0
+        }
+      },
+      "questions": [
+        {
+          "id": "rmf-govern-1-6",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "rmf-manage-1-4",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 91,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 66,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 57,
+              "page": 19
+            }
+          ]
+        },
+        {
+          "id": "rmf-measure-2-11",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "csf-gv-sc",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 48,
+              "page": 20
+            }
+          ]
+        },
+        {
+          "id": "csf-pr-aa",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "gai-executive-order",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "rmf-tevv",
+          "category": "acronym",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "gai-cbrn",
+          "category": "acronym",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "csf-erm",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 37,
+              "page": 16
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 91,
+              "page": 37
+            }
+          ]
+        },
+        {
+          "id": "risk-definition",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 113,
+              "page": 45
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 27,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 78,
+              "page": 32
+            }
+          ]
+        },
+        {
+          "id": "csf-community-profile",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 13,
+              "page": 6
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 30,
+              "page": 13
+            }
+          ]
+        },
+        {
+          "id": "csf-tiers",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 77,
+              "page": 31
+            }
+          ]
+        },
+        {
+          "id": "csf-functions",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 76,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            }
+          ]
+        },
+        {
+          "id": "rmf-trustworthy-characteristics",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "gai-profile-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 94,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 4,
+              "page": 4
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 173,
+              "page": 60
+            }
+          ]
+        },
+        {
+          "id": "gai-information-integrity",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 99,
+              "page": 34
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 80,
+              "page": 28
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 53,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 57,
+              "page": 19
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 134,
+              "page": 48
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 118,
+              "page": 42
+            }
+          ]
+        },
+        {
+          "id": "gai-hallucination",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "rmf-voluntary",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "retiring-ai-systems",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "gai-environment",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "rmf-legislation",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "gai-data-privacy",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 160,
+              "page": 56
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 17,
+              "page": 8
+            }
+          ]
+        },
+        {
+          "id": "ai-actors",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "rmf-base-characteristic",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "gai-overreliance",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "csf-supplier-expectations",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "govern-rmf-vs-csf",
+          "category": "multi-hop",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 2,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "csf-current-vs-target",
+          "category": "multi-hop",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 2,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "gai-content-and-bias",
+          "category": "multi-hop",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 2,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 116,
+              "page": 41
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk-and-manage",
+          "category": "multi-hop",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 2,
+          "first_relevant_rank": null,
+          "retrieved": []
+        },
+        {
+          "id": "oos-pizza",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-world-cup",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-kubernetes",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-gdpr",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-mercury",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        }
+      ]
+    },
+    {
+      "configuration": "hybrid (RRF)",
+      "overrides": {
+        "strategy": "hybrid",
+        "mmr_enabled": false,
+        "rerank_enabled": false
+      },
+      "metrics": {
+        "name": "hybrid (RRF)",
+        "questions": 31,
+        "hit_rate": 0.6452,
+        "recall_at_k": 0.5968,
+        "precision_at_k": 0.1075,
+        "mrr": 0.4554,
+        "ndcg": 0.4836,
+        "p50_latency_ms": 10.0477,
+        "p95_latency_ms": 12.7766,
+        "unanswerable": 5,
+        "refusal_rate": 0.8
+      },
+      "by_category": {
+        "acronym": {
+          "questions": 3,
+          "hit_rate": 0.6667,
+          "recall": 0.6667
+        },
+        "definition": {
+          "questions": 8,
+          "hit_rate": 0.75,
+          "recall": 0.75
+        },
+        "exact-identifier": {
+          "questions": 6,
+          "hit_rate": 0.6667,
+          "recall": 0.6667
+        },
+        "multi-hop": {
+          "questions": 4,
+          "hit_rate": 0.75,
+          "recall": 0.375
+        },
+        "paraphrase": {
+          "questions": 10,
+          "hit_rate": 0.5,
+          "recall": 0.5
+        },
+        "unanswerable": {
+          "questions": 5,
+          "refusal_rate": 0.8
+        }
+      },
+      "questions": [
+        {
+          "id": "rmf-govern-1-6",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 2,
+              "page": 3
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 97,
+              "page": 39
+            }
+          ]
+        },
+        {
+          "id": "rmf-manage-1-4",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 66,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 91,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 93,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 94,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 57,
+              "page": 19
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 122,
+              "page": 44
+            }
+          ]
+        },
+        {
+          "id": "rmf-measure-2-11",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 5,
+              "page": 4
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 82,
+              "page": 33
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 84,
+              "page": 34
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 117,
+              "page": 42
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 140,
+              "page": 50
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 77,
+              "page": 27
+            }
+          ]
+        },
+        {
+          "id": "csf-gv-sc",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 48,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 3,
+              "page": 2
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 15,
+              "page": 7
+            }
+          ]
+        },
+        {
+          "id": "csf-pr-aa",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 60,
+              "page": 24
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 80,
+              "page": 32
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 50,
+              "page": 16
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 57,
+              "page": 23
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 32,
+              "page": 14
+            }
+          ]
+        },
+        {
+          "id": "gai-executive-order",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 179,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 52,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 70,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "rmf-tevv",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 101,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 102,
+              "page": 41
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 54,
+              "page": 22
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 58,
+              "page": 24
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 51,
+              "page": 21
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 50,
+              "page": 21
+            }
+          ]
+        },
+        {
+          "id": "gai-cbrn",
+          "category": "acronym",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 63,
+              "page": 21
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 104,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 130,
+              "page": 46
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 97,
+              "page": 33
+            }
+          ]
+        },
+        {
+          "id": "csf-erm",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 37,
+              "page": 16
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 40,
+              "page": 17
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 72,
+              "page": 30
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 41,
+              "page": 17
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 91,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 118,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            }
+          ]
+        },
+        {
+          "id": "risk-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 5,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 113,
+              "page": 45
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 27,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 17,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            }
+          ]
+        },
+        {
+          "id": "csf-community-profile",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 4,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 13,
+              "page": 6
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 30,
+              "page": 13
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 25,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 3,
+              "page": 2
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 24,
+              "page": 11
+            }
+          ]
+        },
+        {
+          "id": "csf-tiers",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 77,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 15,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 30,
+              "page": 13
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 11,
+              "page": 6
+            }
+          ]
+        },
+        {
+          "id": "csf-functions",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 76,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 23,
+              "page": 10
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 17,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 22,
+              "page": 10
+            }
+          ]
+        },
+        {
+          "id": "rmf-trustworthy-characteristics",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 37,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 14,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 38,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            }
+          ]
+        },
+        {
+          "id": "gai-profile-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 94,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 97,
+              "page": 39
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 173,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            }
+          ]
+        },
+        {
+          "id": "gai-information-integrity",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 53,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 80,
+              "page": 28
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 89,
+              "page": 31
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 118,
+              "page": 42
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 57,
+              "page": 19
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 83,
+              "page": 29
+            }
+          ]
+        },
+        {
+          "id": "gai-hallucination",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 25,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 178,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 1,
+              "page": 2
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 165,
+              "page": 58
+            }
+          ]
+        },
+        {
+          "id": "rmf-voluntary",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 25,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 65,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 19,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 34,
+              "page": 15
+            }
+          ]
+        },
+        {
+          "id": "retiring-ai-systems",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 92,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 9,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 31,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 13,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 34,
+              "page": 15
+            }
+          ]
+        },
+        {
+          "id": "gai-environment",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 33,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 34,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 178,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 171,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 37,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 116,
+              "page": 41
+            }
+          ]
+        },
+        {
+          "id": "rmf-legislation",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 16,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 25,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            }
+          ]
+        },
+        {
+          "id": "gai-data-privacy",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 160,
+              "page": 56
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 30,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 17,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 31,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 125,
+              "page": 45
+            }
+          ]
+        },
+        {
+          "id": "ai-actors",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 52,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 33,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 13,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 99,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 32,
+              "page": 14
+            }
+          ]
+        },
+        {
+          "id": "rmf-base-characteristic",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 38,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 39,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 37,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 41,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 39,
+              "page": 13
+            }
+          ]
+        },
+        {
+          "id": "gai-overreliance",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 177,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 29,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 41,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 167,
+              "page": 59
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 38,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 30,
+              "page": 11
+            }
+          ]
+        },
+        {
+          "id": "csf-supplier-expectations",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 55,
+              "page": 23
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 44,
+              "page": 18
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 70,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 71,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 50,
+              "page": 21
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 18,
+              "page": 8
+            }
+          ]
+        },
+        {
+          "id": "govern-rmf-vs-csf",
+          "category": "multi-hop",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 2,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 3,
+              "page": 2
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 46,
+              "page": 19
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 16,
+              "page": 8
+            }
+          ]
+        },
+        {
+          "id": "csf-current-vs-target",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 24,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 25,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            }
+          ]
+        },
+        {
+          "id": "gai-content-and-bias",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 6,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 116,
+              "page": 41
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 27,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 85,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 102,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 46,
+              "page": 15
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 18,
+              "page": 8
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk-and-manage",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 50,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 66,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 15,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 11,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 96,
+              "page": 38
+            }
+          ]
+        },
+        {
+          "id": "oos-pizza",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-world-cup",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-kubernetes",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-gdpr",
+          "category": "unanswerable",
+          "refused": false,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 140,
+              "page": 50
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 87,
+              "page": 30
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 160,
+              "page": 56
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 103,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 98,
+              "page": 34
+            }
+          ]
+        },
+        {
+          "id": "oos-mercury",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        }
+      ]
+    },
+    {
+      "configuration": "hybrid + MMR",
+      "overrides": {
+        "strategy": "hybrid",
+        "mmr_enabled": true,
+        "rerank_enabled": false
+      },
+      "metrics": {
+        "name": "hybrid + MMR",
+        "questions": 31,
+        "hit_rate": 0.6452,
+        "recall_at_k": 0.5968,
+        "precision_at_k": 0.1075,
+        "mrr": 0.3962,
+        "ndcg": 0.4415,
+        "p50_latency_ms": 12.5344,
+        "p95_latency_ms": 15.2276,
+        "unanswerable": 5,
+        "refusal_rate": 0.8
+      },
+      "by_category": {
+        "acronym": {
+          "questions": 3,
+          "hit_rate": 0.6667,
+          "recall": 0.6667
+        },
+        "definition": {
+          "questions": 8,
+          "hit_rate": 1.0,
+          "recall": 1.0
+        },
+        "exact-identifier": {
+          "questions": 6,
+          "hit_rate": 0.5,
+          "recall": 0.5
+        },
+        "multi-hop": {
+          "questions": 4,
+          "hit_rate": 0.75,
+          "recall": 0.375
+        },
+        "paraphrase": {
+          "questions": 10,
+          "hit_rate": 0.4,
+          "recall": 0.4
+        },
+        "unanswerable": {
+          "questions": 5,
+          "refusal_rate": 0.8
+        }
+      },
+      "questions": [
+        {
+          "id": "rmf-govern-1-6",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 3,
+              "page": 3
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 97,
+              "page": 39
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 2,
+              "page": 3
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 13,
+              "page": 7
+            }
+          ]
+        },
+        {
+          "id": "rmf-manage-1-4",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 93,
+              "page": 37
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 39,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 94,
+              "page": 38
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 32,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 5,
+              "page": 4
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 69,
+              "page": 28
+            }
+          ]
+        },
+        {
+          "id": "rmf-measure-2-11",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 5,
+              "page": 4
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 182,
+              "page": 63
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 82,
+              "page": 33
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 140,
+              "page": 50
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 84,
+              "page": 34
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 112,
+              "page": 40
+            }
+          ]
+        },
+        {
+          "id": "csf-gv-sc",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 48,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 6,
+              "page": 4
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 54,
+              "page": 22
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 23,
+              "page": 10
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            }
+          ]
+        },
+        {
+          "id": "csf-pr-aa",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 60,
+              "page": 24
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 5,
+              "page": 4
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 80,
+              "page": 32
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 4,
+              "page": 3
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 32,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 182,
+              "page": 63
+            }
+          ]
+        },
+        {
+          "id": "gai-executive-order",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 6,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 179,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 52,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 168,
+              "page": 59
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 68,
+              "page": 28
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "rmf-tevv",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 101,
+              "page": 40
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 54,
+              "page": 22
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 63,
+              "page": 21
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 58,
+              "page": 24
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 114,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 147,
+              "page": 53
+            }
+          ]
+        },
+        {
+          "id": "gai-cbrn",
+          "category": "acronym",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 63,
+              "page": 21
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 130,
+              "page": 46
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 171,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 97,
+              "page": 33
+            }
+          ]
+        },
+        {
+          "id": "csf-erm",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 37,
+              "page": 16
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 40,
+              "page": 17
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 60,
+              "page": 24
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 65,
+              "page": 26
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 50,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 17,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 173,
+              "page": 60
+            }
+          ]
+        },
+        {
+          "id": "risk-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 10,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 17,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 35,
+              "page": 15
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 16,
+              "page": 7
+            }
+          ]
+        },
+        {
+          "id": "csf-community-profile",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 3,
+              "page": 2
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 25,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 6,
+              "page": 4
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 48,
+              "page": 20
+            }
+          ]
+        },
+        {
+          "id": "csf-tiers",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 77,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 6,
+              "page": 4
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 23,
+              "page": 10
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            }
+          ]
+        },
+        {
+          "id": "csf-functions",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 23,
+              "page": 10
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 17,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 6,
+              "page": 4
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 5,
+              "page": 4
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            }
+          ]
+        },
+        {
+          "id": "rmf-trustworthy-characteristics",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 37,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 14,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 38,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 19,
+              "page": 9
+            }
+          ]
+        },
+        {
+          "id": "gai-profile-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 13,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 3,
+              "page": 3
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 97,
+              "page": 39
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 94,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "gai-information-integrity",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 5,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 39,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 172,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 41,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 82,
+              "page": 28
+            }
+          ]
+        },
+        {
+          "id": "gai-hallucination",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 25,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 3,
+              "page": 3
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 178,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 171,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 55,
+              "page": 23
+            }
+          ]
+        },
+        {
+          "id": "rmf-voluntary",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 21,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 90,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 25,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 34,
+              "page": 15
+            }
+          ]
+        },
+        {
+          "id": "retiring-ai-systems",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 8,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 92,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 69,
+              "page": 28
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 72,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 9,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 88,
+              "page": 36
+            }
+          ]
+        },
+        {
+          "id": "gai-environment",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 33,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 171,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 178,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 37,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 34,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 25,
+              "page": 10
+            }
+          ]
+        },
+        {
+          "id": "rmf-legislation",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 16,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 25,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 2,
+              "page": 3
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 1,
+              "page": 2
+            }
+          ]
+        },
+        {
+          "id": "gai-data-privacy",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 30,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 37,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 108,
+              "page": 43
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 160,
+              "page": 56
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            }
+          ]
+        },
+        {
+          "id": "ai-actors",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 85,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 52,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 33,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 60,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 99,
+              "page": 40
+            }
+          ]
+        },
+        {
+          "id": "rmf-base-characteristic",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 38,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 39,
+              "page": 17
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 171,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 37,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 7,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "gai-overreliance",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 177,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 29,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 41,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 167,
+              "page": 59
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 38,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 27,
+              "page": 10
+            }
+          ]
+        },
+        {
+          "id": "csf-supplier-expectations",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 55,
+              "page": 23
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 71,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 62,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 55,
+              "page": 18
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 50,
+              "page": 21
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 44,
+              "page": 18
+            }
+          ]
+        },
+        {
+          "id": "govern-rmf-vs-csf",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 6,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 3,
+              "page": 2
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 21,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 46,
+              "page": 19
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 62,
+              "page": 26
+            }
+          ]
+        },
+        {
+          "id": "csf-current-vs-target",
+          "category": "multi-hop",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 2,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 27,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 48,
+              "page": 20
+            }
+          ]
+        },
+        {
+          "id": "gai-content-and-bias",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 4,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 27,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 85,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 167,
+              "page": 59
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 124,
+              "page": 44
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 183,
+              "page": 64
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk-and-manage",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 50,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 66,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 11,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 80,
+              "page": 32
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 70,
+              "page": 29
+            }
+          ]
+        },
+        {
+          "id": "oos-pizza",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-world-cup",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-kubernetes",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-gdpr",
+          "category": "unanswerable",
+          "refused": false,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 140,
+              "page": 50
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 87,
+              "page": 30
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 79,
+              "page": 32
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 30,
+              "page": 11
+            }
+          ]
+        },
+        {
+          "id": "oos-mercury",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        }
+      ]
+    },
+    {
+      "configuration": "hybrid + MMR + rerank",
+      "overrides": {
+        "strategy": "hybrid",
+        "mmr_enabled": true,
+        "rerank_enabled": true
+      },
+      "metrics": {
+        "name": "hybrid + MMR + rerank",
+        "questions": 31,
+        "hit_rate": 0.6452,
+        "recall_at_k": 0.6129,
+        "precision_at_k": 0.1129,
+        "mrr": 0.5387,
+        "ndcg": 0.5404,
+        "p50_latency_ms": 569.4151,
+        "p95_latency_ms": 963.0436,
+        "unanswerable": 5,
+        "refusal_rate": 0.8
+      },
+      "by_category": {
+        "acronym": {
+          "questions": 3,
+          "hit_rate": 1.0,
+          "recall": 1.0
+        },
+        "definition": {
+          "questions": 8,
+          "hit_rate": 0.875,
+          "recall": 0.875
+        },
+        "exact-identifier": {
+          "questions": 6,
+          "hit_rate": 0.5,
+          "recall": 0.5
+        },
+        "multi-hop": {
+          "questions": 4,
+          "hit_rate": 0.75,
+          "recall": 0.5
+        },
+        "paraphrase": {
+          "questions": 10,
+          "hit_rate": 0.4,
+          "recall": 0.4
+        },
+        "unanswerable": {
+          "questions": 5,
+          "refusal_rate": 0.8
+        }
+      },
+      "questions": [
+        {
+          "id": "rmf-govern-1-6",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 70,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 62,
+              "page": 26
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 51,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 97,
+              "page": 39
+            }
+          ]
+        },
+        {
+          "id": "rmf-manage-1-4",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 94,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 92,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 66,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 93,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 122,
+              "page": 44
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 66,
+              "page": 22
+            }
+          ]
+        },
+        {
+          "id": "rmf-measure-2-11",
+          "category": "exact-identifier",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 112,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 117,
+              "page": 42
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 113,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 83,
+              "page": 33
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 82,
+              "page": 33
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 84,
+              "page": 34
+            }
+          ]
+        },
+        {
+          "id": "csf-gv-sc",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 48,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 49,
+              "page": 21
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 54,
+              "page": 22
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 22,
+              "page": 10
+            }
+          ]
+        },
+        {
+          "id": "csf-pr-aa",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 60,
+              "page": 24
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 23,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 93,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 80,
+              "page": 32
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 12,
+              "page": 7
+            }
+          ]
+        },
+        {
+          "id": "gai-executive-order",
+          "category": "exact-identifier",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 2,
+              "page": 3
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 179,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 168,
+              "page": 59
+            }
+          ]
+        },
+        {
+          "id": "rmf-tevv",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 101,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 33,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 102,
+              "page": 41
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 147,
+              "page": 53
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 114,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 117,
+              "page": 42
+            }
+          ]
+        },
+        {
+          "id": "gai-cbrn",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 6,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 94,
+              "page": 32
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 104,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 97,
+              "page": 33
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 17,
+              "page": 8
+            }
+          ]
+        },
+        {
+          "id": "csf-erm",
+          "category": "acronym",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 37,
+              "page": 16
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 40,
+              "page": 17
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 41,
+              "page": 17
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 72,
+              "page": 30
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 27,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 10,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 17,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 91,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            }
+          ]
+        },
+        {
+          "id": "risk-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 10,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 17,
+              "page": 9
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 113,
+              "page": 45
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            }
+          ]
+        },
+        {
+          "id": "csf-community-profile",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 3,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 13,
+              "page": 6
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 25,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 24,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 9,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "csf-tiers",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 77,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 16,
+              "page": 7
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 30,
+              "page": 13
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 69,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 24,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            }
+          ]
+        },
+        {
+          "id": "csf-functions",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 17,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 11,
+              "page": 6
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 47,
+              "page": 20
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 23,
+              "page": 10
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 21,
+              "page": 9
+            }
+          ]
+        },
+        {
+          "id": "rmf-trustworthy-characteristics",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 37,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 38,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 41,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 43,
+              "page": 19
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 6,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "gai-profile-definition",
+          "category": "definition",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 97,
+              "page": 39
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 32,
+              "page": 14
+            }
+          ]
+        },
+        {
+          "id": "gai-information-integrity",
+          "category": "definition",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 41,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 80,
+              "page": 28
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 172,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 93,
+              "page": 32
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 39,
+              "page": 13
+            }
+          ]
+        },
+        {
+          "id": "gai-hallucination",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 25,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 55,
+              "page": 23
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 43,
+              "page": 19
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 165,
+              "page": 58
+            }
+          ]
+        },
+        {
+          "id": "rmf-voluntary",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 120,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 26,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 65,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 6,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 119,
+              "page": 47
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 25,
+              "page": 12
+            }
+          ]
+        },
+        {
+          "id": "retiring-ai-systems",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 74,
+              "page": 30
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 13,
+              "page": 7
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 9,
+              "page": 6
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 31,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 106,
+              "page": 42
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 68,
+              "page": 28
+            }
+          ]
+        },
+        {
+          "id": "gai-environment",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 5,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 33,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 34,
+              "page": 12
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 165,
+              "page": 58
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 178,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 8,
+              "page": 5
+            }
+          ]
+        },
+        {
+          "id": "rmf-legislation",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 16,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 1,
+              "page": 2
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 1,
+              "page": 2
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 174,
+              "page": 61
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            }
+          ]
+        },
+        {
+          "id": "gai-data-privacy",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 172,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 160,
+              "page": 56
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 30,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 0,
+              "page": 1
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 53,
+              "page": 22
+            }
+          ]
+        },
+        {
+          "id": "ai-actors",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 104,
+              "page": 41
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 105,
+              "page": 42
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 99,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 33,
+              "page": 14
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 98,
+              "page": 40
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 36,
+              "page": 16
+            }
+          ]
+        },
+        {
+          "id": "rmf-base-characteristic",
+          "category": "paraphrase",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 1,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 38,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 7,
+              "page": 5
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 41,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 39,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 37,
+              "page": 17
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 42,
+              "page": 18
+            }
+          ]
+        },
+        {
+          "id": "gai-overreliance",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 30,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 177,
+              "page": 62
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 167,
+              "page": 59
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 29,
+              "page": 11
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 38,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 65,
+              "page": 22
+            }
+          ]
+        },
+        {
+          "id": "csf-supplier-expectations",
+          "category": "paraphrase",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 1,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 55,
+              "page": 23
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 70,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 71,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 8,
+              "page": 5
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 18,
+              "page": 8
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 50,
+              "page": 21
+            }
+          ]
+        },
+        {
+          "id": "govern-rmf-vs-csf",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 2,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 15,
+              "page": 8
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 62,
+              "page": 26
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 70,
+              "page": 29
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 22,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 111,
+              "page": 44
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 59,
+              "page": 25
+            }
+          ]
+        },
+        {
+          "id": "csf-current-vs-target",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 2,
+          "evidence_total": 2,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 25,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 27,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 28,
+              "page": 12
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 24,
+              "page": 11
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 75,
+              "page": 31
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 95,
+              "page": 38
+            }
+          ]
+        },
+        {
+          "id": "gai-content-and-bias",
+          "category": "multi-hop",
+          "hit": false,
+          "evidence_found": 0,
+          "evidence_total": 2,
+          "first_relevant_rank": null,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 27,
+              "page": 10
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 85,
+              "page": 29
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 78,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 102,
+              "page": 36
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 172,
+              "page": 60
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 183,
+              "page": 64
+            }
+          ]
+        },
+        {
+          "id": "rmf-residual-risk-and-manage",
+          "category": "multi-hop",
+          "hit": true,
+          "evidence_found": 1,
+          "evidence_total": 2,
+          "first_relevant_rank": 1,
+          "retrieved": [
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 29,
+              "page": 13
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 96,
+              "page": 38
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 50,
+              "page": 16
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 66,
+              "page": 27
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 62,
+              "page": 26
+            },
+            {
+              "filename": "nist-ai-rmf-1.0.pdf",
+              "chunk_index": 93,
+              "page": 37
+            }
+          ]
+        },
+        {
+          "id": "oos-pizza",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-world-cup",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-kubernetes",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        },
+        {
+          "id": "oos-gdpr",
+          "category": "unanswerable",
+          "refused": false,
+          "retrieved": [
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 140,
+              "page": 50
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 87,
+              "page": 30
+            },
+            {
+              "filename": "nist-csf-2.0.pdf",
+              "chunk_index": 43,
+              "page": 18
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 105,
+              "page": 37
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 160,
+              "page": 56
+            },
+            {
+              "filename": "nist-ai-600-1-genai-profile.pdf",
+              "chunk_index": 86,
+              "page": 30
+            }
+          ]
+        },
+        {
+          "id": "oos-mercury",
+          "category": "unanswerable",
+          "refused": true,
+          "retrieved": []
+        }
+      ]
+    }
+  ]
+}

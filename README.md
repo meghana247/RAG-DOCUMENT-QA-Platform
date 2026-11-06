@@ -52,28 +52,28 @@ Retrieval is tunable entirely through environment variables — see `.env.exampl
 
 ## Measuring changes
 
-Retrieval quality cannot be assessed by reading a few answers. `eval/` scores
-configurations against a labelled question set:
+Retrieval quality cannot be judged by reading a few answers. `eval/` scores the
+pipeline against three public-domain NIST publications (AI RMF 1.0, the Generative
+AI Profile, CSF 2.0) and 36 labelled questions: exact identifiers, acronyms,
+definitions, paraphrases, multi-hop questions, and unanswerable ones.
 
 ```bash
-python -m eval.run_eval --user-email you@example.com
+python -m eval.run_eval        # indexes eval/corpus itself; needs only DATABASE_URL
 ```
 
-```
-configuration              hit@k  recall@k    prec@k     MRR    nDCG    p50 ms    p95 ms
-------------------------------------------------------------------------------------------
-vector only                 ...       ...       ...      ...     ...       ...       ...
-keyword only                ...
-hybrid (RRF)                ...
-hybrid + MMR                ...
-hybrid + MMR + rerank       ...
-```
+| Configuration | hit@6 | recall@6 | MRR | nDCG | refusal | p50 ms |
+|---|---|---|---|---|---|---|
+| vector only | 0.581 | 0.532 | 0.399 | 0.426 | 0.80 | 11 |
+| keyword only | 0.226 | 0.226 | 0.210 | 0.214 | 1.00 | 4 |
+| hybrid (RRF) | 0.645 | 0.597 | 0.455 | 0.484 | 0.80 | 10 |
+| hybrid + MMR | 0.645 | 0.597 | 0.396 | 0.442 | 0.80 | 13 |
+| **hybrid + MMR + rerank** (default) | **0.645** | **0.613** | **0.539** | **0.540** | **0.80** | 569 |
 
 Each row changes one variable from the row above, so a difference has one cause.
-Absolute numbers depend on your corpus; the comparison between rows is the point.
-Replace `eval/golden_set.json` with questions over your own documents — the
-shipped set is a template covering the cases that distinguish these strategies
-(exact identifier, paraphrase, acronym, multi-hop, unanswerable).
+Hybrid retrieval beats either leg alone, and the cross-encoder lifts MRR from 0.40
+to 0.54 by moving the right passage higher. Keyword-only search is the weakest
+link: it requires every question word to match. See [`eval/README.md`](eval/README.md)
+for the corpus, labelling rules and analysis.
 
 Run it before and after any retrieval change. A change that improves five
 questions and quietly breaks twenty is not an improvement.
