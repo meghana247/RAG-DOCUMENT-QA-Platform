@@ -17,6 +17,7 @@ ignore = [
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
+pythonpath = ["."]
 filterwarnings = ["error::DeprecationWarning:app.*"]
 
 [tool.mypy]
