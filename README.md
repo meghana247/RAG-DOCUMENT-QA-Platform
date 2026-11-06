@@ -75,8 +75,9 @@ to 0.54 by moving the right passage higher. Keyword-only search is the weakest
 link: it requires every question word to match. See [`eval/README.md`](eval/README.md)
 for the corpus, labelling rules and analysis.
 
-Run it before and after any retrieval change. A change that improves five
-questions and quietly breaks twenty is not an improvement.
+Answer quality is graded separately by an LLM judge (`python -m eval.answer_eval`).
+CI runs the tests and the retrieval eval on every push, and fails the build when a
+score drops below `eval/thresholds.json`.
 
 ---
 

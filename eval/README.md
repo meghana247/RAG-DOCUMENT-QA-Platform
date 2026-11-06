@@ -102,6 +102,38 @@ What the numbers say:
 With 31 answerable questions, one question is worth about 0.03 of hit rate, so
 treat differences smaller than that as noise.
 
+## Answer quality
+
+```bash
+GROQ_API_KEY=... python -m eval.answer_eval
+```
+
+Every question is answered by the production pipeline (retrieval plus
+`llama-3.3-70b`), then graded by a separate judge model (`openai/gpt-oss-120b` by
+default). The judge is a LangChain chain whose structured output is a Pydantic
+`Verdict`, and it scores two things:
+
+- **correctness**: whether the answer conveys the reference answer (yes = 1,
+  partial = 0.5, no = 0)
+- **faithfulness**: whether every claim is supported by the retrieved passages
+
+Two more checks are reported alongside them. **Citation validity** checks in code
+that every `[n]` points at a passage the model was shown. **Refusal rate** is the
+share of unanswerable questions where the answer declines. Results go to
+`results/answers.json`.
+
+## CI
+
+`.github/workflows/ci.yml` runs on every push and pull request. Against a pgvector
+service container it runs lint, migrations, the full test suite (including the
+Postgres integration tests) and the retrieval eval. It then runs
+`python -m eval.check retrieval`, which fails the build if a score drops below
+`thresholds.json`.
+
+The answer-quality eval calls a paid API, so it runs only on `main` and on manual
+dispatch. It needs a `GROQ_API_KEY` repository secret and is gated by
+`python -m eval.check answers`.
+
 ## Adding questions
 
 1. Find the answer passage in the corpus and copy a short, distinctive phrase from

@@ -2,6 +2,7 @@ import pytest
 from langchain_core.runnables import RunnableLambda
 from pydantic import ValidationError
 
+from eval.check import failures
 from eval.judge import Verdict, citations_valid, judge
 from eval.metrics import summarize_answers
 
@@ -58,3 +59,8 @@ def test_summarize_separates_refusals_from_correctness():
     assert summary["citation_validity"] == 0.5
     assert summary["refusal_rate"] == 1.0
     assert summary["correctness_by_category"] == {"definition": 1.0, "paraphrase": 0.5}
+
+
+def test_threshold_failures():
+    assert failures({"mrr": 0.54, "ndcg": 0.4}, {"mrr": 0.5, "ndcg": 0.5}) == ["ndcg 0.4 < 0.5"]
+    assert failures({}, {"mrr": 0.5}) == ["mrr None < 0.5"]
