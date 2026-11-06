@@ -9,7 +9,10 @@ retrieved positions were relevant, in rank order.
 from __future__ import annotations
 
 import math
+from collections import defaultdict
 from dataclasses import asdict, dataclass
+from statistics import mean
+from typing import Any
 
 
 def hit_rate(relevance: list[bool]) -> float:
@@ -133,3 +136,30 @@ def aggregate(
         unanswerable=len(refusals),
         refusal_rate=refusal_rate,
     )
+
+
+CORRECTNESS_SCORE: dict[str, float] = {"yes": 1.0, "partial": 0.5, "no": 0.0}
+
+
+def summarize_answers(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    answerable = [r for r in rows if r["category"] != "unanswerable"]
+    unanswerable = [r for r in rows if r["category"] == "unanswerable"]
+    cited = [r["citations_valid"] for r in rows if r["citations_valid"] is not None]
+
+    by_category: dict[str, list[float]] = defaultdict(list)
+    for row in answerable:
+        by_category[row["category"]].append(CORRECTNESS_SCORE[row["correct"]])
+
+    return {
+        "questions": len(rows),
+        "correctness": round(mean(CORRECTNESS_SCORE[r["correct"]] for r in answerable), 4),
+        "fully_correct": round(mean(r["correct"] == "yes" for r in answerable), 4),
+        "faithfulness": round(mean(r["faithful"] for r in rows), 4),
+        "citation_validity": round(mean(cited), 4) if cited else None,
+        "refusal_rate": (
+            round(mean(r["correct"] == "yes" for r in unanswerable), 4) if unanswerable else None
+        ),
+        "correctness_by_category": {
+            category: round(mean(scores), 4) for category, scores in sorted(by_category.items())
+        },
+    }

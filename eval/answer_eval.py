@@ -18,23 +18,22 @@ import asyncio  # noqa: E402
 import json  # noqa: E402
 import pathlib  # noqa: E402
 import uuid  # noqa: E402
-from collections import defaultdict  # noqa: E402
 from datetime import UTC, datetime  # noqa: E402
-from statistics import mean  # noqa: E402
 from typing import Any  # noqa: E402
 
-from groq import AsyncGroq  # noqa: E402
+from langchain_core.runnables import Runnable  # noqa: E402
 
 from app.core.config import get_settings  # noqa: E402
 from app.core.container import Container  # noqa: E402
 from app.core.database import SessionFactory  # noqa: E402
 from eval.judge import (  # noqa: E402
-    CORRECTNESS_SCORE,
     REFUSAL_REFERENCE,
+    build_judge,
     citations_valid,
     judge,
 )
 from eval.labels import Question, load_golden_set  # noqa: E402
+from eval.metrics import summarize_answers  # noqa: E402
 from eval.run_eval import (  # noqa: E402
     CORPUS_DIR,
     EVAL_DIR,
@@ -49,8 +48,7 @@ DEFAULT_JUDGE_MODEL = "openai/gpt-oss-120b"
 
 async def grade(
     container: Container,
-    judge_client: AsyncGroq,
-    judge_model: str,
+    judge_chain: Runnable,
     user_id: uuid.UUID,
     question: Question,
 ) -> dict[str, Any]:
@@ -58,8 +56,7 @@ async def grade(
         result = await container.pipeline.answer(session, query=question.question, user_id=user_id)
 
     verdict = await judge(
-        judge_client,
-        judge_model,
+        judge_chain,
         question=question.question,
         reference=question.answer or REFUSAL_REFERENCE,
         passages=[chunk.content for chunk in result.sources],
@@ -82,30 +79,6 @@ async def grade(
     }
 
 
-def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
-    answerable = [r for r in rows if r["category"] != "unanswerable"]
-    unanswerable = [r for r in rows if r["category"] == "unanswerable"]
-    cited = [r["citations_valid"] for r in rows if r["citations_valid"] is not None]
-
-    by_category: dict[str, list[float]] = defaultdict(list)
-    for row in answerable:
-        by_category[row["category"]].append(CORRECTNESS_SCORE[row["correct"]])
-
-    return {
-        "questions": len(rows),
-        "correctness": round(mean(CORRECTNESS_SCORE[r["correct"]] for r in answerable), 4),
-        "fully_correct": round(mean(r["correct"] == "yes" for r in answerable), 4),
-        "faithfulness": round(mean(r["faithful"] for r in rows), 4),
-        "citation_validity": round(mean(cited), 4) if cited else None,
-        "refusal_rate": (
-            round(mean(r["correct"] == "yes" for r in unanswerable), 4) if unanswerable else None
-        ),
-        "correctness_by_category": {
-            category: round(mean(scores), 4) for category, scores in sorted(by_category.items())
-        },
-    }
-
-
 async def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--golden-set", type=pathlib.Path, default=GOLDEN_SET)
@@ -115,13 +88,12 @@ async def main() -> None:
     args = parser.parse_args()
 
     settings = get_settings()
-    api_key = settings.generation.api_key.get_secret_value()
-    if api_key == PLACEHOLDER_GROQ_KEY:
+    if settings.generation.api_key.get_secret_value() == PLACEHOLDER_GROQ_KEY:
         raise SystemExit("Set GROQ_API_KEY: answer evaluation calls the language model.")
 
     questions = load_golden_set(args.golden_set)
     container = Container(settings)
-    judge_client = AsyncGroq(api_key=api_key, max_retries=8)
+    judge_chain = build_judge(args.judge_model, settings.generation.api_key)
 
     try:
         await container.startup()
@@ -129,14 +101,13 @@ async def main() -> None:
 
         rows = []
         for number, question in enumerate(questions, start=1):
-            row = await grade(container, judge_client, args.judge_model, user_id, question)
+            row = await grade(container, judge_chain, user_id, question)
             rows.append(row)
             print(f"[{number:>2}/{len(questions)}] {row['correct']:<7} {question.id}")
     finally:
         await container.shutdown()
-        await judge_client.close()
 
-    summary = summarize(rows)
+    summary = summarize_answers(rows)
     print(json.dumps(summary, indent=2))
 
     report = {

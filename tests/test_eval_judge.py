@@ -1,21 +1,32 @@
 import pytest
+from langchain_core.runnables import RunnableLambda
+from pydantic import ValidationError
 
-from eval.answer_eval import summarize
-from eval.judge import citations_valid, parse_verdict
-
-
-def test_parse_verdict():
-    verdict = parse_verdict('{"correct": "Partial", "faithful": true, "reason": "misses a tier"}')
-    assert (verdict.correct, verdict.faithful) == ("partial", True)
+from eval.judge import Verdict, citations_valid, judge
+from eval.metrics import summarize_answers
 
 
-@pytest.mark.parametrize(
-    "raw",
-    ['{"correct": "maybe", "faithful": true}', '{"correct": "yes", "faithful": "yes"}', "not json"],
-)
-def test_parse_verdict_rejects_malformed_output(raw):
-    with pytest.raises(ValueError):
-        parse_verdict(raw)
+def test_verdict_rejects_unknown_grades():
+    with pytest.raises(ValidationError):
+        Verdict(correct="maybe", faithful=True, reason="")
+
+
+async def test_judge_numbers_passages_like_the_generator():
+    seen = {}
+
+    def fake_llm(inputs):
+        seen.update(inputs)
+        return Verdict(correct="yes", faithful=True, reason="ok")
+
+    verdict = await judge(
+        RunnableLambda(fake_llm),
+        question="q",
+        reference="r",
+        passages=["first", "second"],
+        answer="a [1]",
+    )
+    assert verdict.correct == "yes"
+    assert seen["passages"] == "[1] first\n\n[2] second"
 
 
 @pytest.mark.parametrize(
@@ -41,7 +52,7 @@ def test_summarize_separates_refusals_from_correctness():
         },
         {"category": "unanswerable", "correct": "yes", "faithful": True, "citations_valid": None},
     ]
-    summary = summarize(rows)
+    summary = summarize_answers(rows)
     assert summary["correctness"] == 0.75
     assert summary["fully_correct"] == 0.5
     assert summary["citation_validity"] == 0.5
