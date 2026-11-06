@@ -128,6 +128,7 @@ class TestGoldenSetFile:
             "id": "a",
             "category": "definition",
             "question": "?",
+            "answer": "x",
             "evidence": [{"contains": ["x"]}],
         }
         path.write_text(json.dumps({"questions": [row, row]}))

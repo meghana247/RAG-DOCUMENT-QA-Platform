@@ -23,7 +23,8 @@ import os
 
 # Retrieval never calls the LLM or issues tokens, but Settings validates these
 # at import time. Placeholders let the evaluation run in CI without real secrets.
-os.environ.setdefault("GROQ_API_KEY", "eval-placeholder-not-used")
+PLACEHOLDER_GROQ_KEY = "eval-placeholder-not-used"
+os.environ.setdefault("GENERATION__API_KEY", PLACEHOLDER_GROQ_KEY)
 os.environ.setdefault("SECURITY__SECRET_KEY", "eval-placeholder-secret-key-long-enough-to-validate")
 
 import argparse  # noqa: E402

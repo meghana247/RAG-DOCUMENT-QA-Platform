@@ -79,6 +79,7 @@ class Question:
     category: str
     question: str
     evidence: tuple[Evidence, ...] = field(default_factory=tuple)
+    answer: str | None = None
 
     @property
     def answerable(self) -> bool:
@@ -111,7 +112,11 @@ def load_golden_set(path: pathlib.Path) -> list[Question]:
                 f"{qid}: unanswerable questions must have no evidence, and all others must have some"
             )
 
-        questions.append(Question(qid, category, raw["question"], evidence))
+        answer = raw.get("answer")
+        if evidence and not answer:
+            raise ValueError(f"{qid}: answerable questions need a reference answer")
+
+        questions.append(Question(qid, category, raw["question"], evidence, answer))
 
     return questions
 

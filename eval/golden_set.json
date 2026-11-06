@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "description": "Labelled retrieval questions over the three public-domain NIST documents in eval/corpus. Each answerable question lists one or more evidence items: the facts a correct answer needs. A retrieved chunk satisfies an evidence item when it comes from that item's document (if one is given) and contains every listed substring. An item can list `any_of` alternatives when the corpus states the same fact in more than one place or wording. Matching ignores case, whitespace and Unicode ligatures, so PDF extraction quirks such as 'c onﬁdently' do not break labels. Multi-hop questions list several evidence items; recall is the share of them that retrieval surfaces. Unanswerable questions have no evidence and are scored separately: the correct behaviour is to retrieve nothing.",
+  "description": "Labelled retrieval questions over the three public-domain NIST documents in eval/corpus. Each answerable question lists one or more evidence items: the facts a correct answer needs. A retrieved chunk satisfies an evidence item when it comes from that item's document (if one is given) and contains every listed substring. An item can list `any_of` alternatives when the corpus states the same fact in more than one place or wording. Matching ignores case, whitespace and Unicode ligatures, so PDF extraction quirks such as 'c onﬁdently' do not break labels. Multi-hop questions list several evidence items; recall is the share of them that retrieval surfaces. Unanswerable questions have no evidence and are scored separately: the correct behaviour is to retrieve nothing. Answerable questions also carry a reference `answer`, used by the answer-quality evaluation.",
   "questions": [
     {
       "id": "rmf-govern-1-6",
@@ -13,7 +13,8 @@
             "GOVERN 1.6: Mechanisms are in place to inventory"
           ]
         }
-      ]
+      ],
+      "answer": "Mechanisms are in place to inventory AI systems, and they are resourced according to organizational risk priorities."
     },
     {
       "id": "rmf-manage-1-4",
@@ -26,7 +27,8 @@
             "MANAGE 1.4: Negative residual risks"
           ]
         }
-      ]
+      ],
+      "answer": "Negative residual risks (the sum of all unmitigated risks) to downstream acquirers of AI systems and to end users are documented."
     },
     {
       "id": "rmf-measure-2-11",
@@ -39,7 +41,8 @@
             "MEASURE 2.11: Fairness and bias"
           ]
         }
-      ]
+      ],
+      "answer": "Fairness and bias, as identified in the MAP function, are evaluated and the results are documented."
     },
     {
       "id": "csf-gv-sc",
@@ -62,7 +65,8 @@
             }
           ]
         }
-      ]
+      ],
+      "answer": "Cybersecurity Supply Chain Risk Management: cyber supply chain risk management processes are identified, established, managed, monitored, and improved by organizational stakeholders."
     },
     {
       "id": "csf-pr-aa",
@@ -85,7 +89,8 @@
             }
           ]
         }
-      ]
+      ],
+      "answer": "Identity Management, Authentication, and Access Control: access to physical and logical assets is limited to authorized users, services, and hardware, and managed commensurate with the assessed risk of unauthorized access."
     },
     {
       "id": "gai-executive-order",
@@ -98,7 +103,8 @@
             "14110"
           ]
         }
-      ]
+      ],
+      "answer": "Executive Order 14110 on Safe, Secure, and Trustworthy Artificial Intelligence."
     },
     {
       "id": "rmf-tevv",
@@ -121,7 +127,8 @@
             }
           ]
         }
-      ]
+      ],
+      "answer": "Test, evaluation, verification, and validation."
     },
     {
       "id": "gai-cbrn",
@@ -134,7 +141,8 @@
             "chemical, biological, radiological, or nuclear"
           ]
         }
-      ]
+      ],
+      "answer": "Chemical, biological, radiological, or nuclear (weapons or other dangerous materials or agents)."
     },
     {
       "id": "csf-erm",
@@ -147,7 +155,8 @@
             "enterprise risk management (ERM)"
           ]
         }
-      ]
+      ],
+      "answer": "Governance activities are critical for incorporating cybersecurity into an organization's broader enterprise risk management (ERM) strategy."
     },
     {
       "id": "rmf-residual-risk",
@@ -160,7 +169,8 @@
             "risk remaining after risk treatment"
           ]
         }
-      ]
+      ],
+      "answer": "Residual risk is the risk remaining after risk treatment."
     },
     {
       "id": "risk-definition",
@@ -172,7 +182,8 @@
             "composite measure of an event"
           ]
         }
-      ]
+      ],
+      "answer": "Risk is the composite measure of an event's probability of occurring and the magnitude or degree of the consequences of the corresponding event."
     },
     {
       "id": "csf-community-profile",
@@ -185,7 +196,8 @@
             "Community Profile is a baseline of CSF outcomes"
           ]
         }
-      ]
+      ],
+      "answer": "A baseline of CSF outcomes created and published to address shared interests and goals among a number of organizations, typically for a particular sector, subsector, technology, threat type, or other use case."
     },
     {
       "id": "csf-tiers",
@@ -199,7 +211,8 @@
             "Adaptive (Tier 4)"
           ]
         }
-      ]
+      ],
+      "answer": "Partial (Tier 1), Risk Informed (Tier 2), Repeatable (Tier 3), and Adaptive (Tier 4)."
     },
     {
       "id": "csf-functions",
@@ -212,7 +225,8 @@
             "GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, and RECOVER"
           ]
         }
-      ]
+      ],
+      "answer": "GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, and RECOVER."
     },
     {
       "id": "rmf-trustworthy-characteristics",
@@ -225,7 +239,8 @@
             "valid and reliable, safe, secure and resilient"
           ]
         }
-      ]
+      ],
+      "answer": "Valid and reliable; safe; secure and resilient; accountable and transparent; explainable and interpretable; privacy-enhanced; and fair with harmful bias managed."
     },
     {
       "id": "gai-profile-definition",
@@ -248,7 +263,8 @@
             }
           ]
         }
-      ]
+      ],
+      "answer": "An implementation of the AI RMF functions, categories, and subcategories for a specific setting, application, or technology, based on the requirements, risk tolerance, and resources of the Framework user."
     },
     {
       "id": "gai-information-integrity",
@@ -261,7 +277,8 @@
             "Information Integrity: Lowered barrier to entry"
           ]
         }
-      ]
+      ],
+      "answer": "Generative AI lowers the barrier to entry to generate and spread content that may not distinguish fact from opinion or fiction or acknowledge uncertainties, and can be leveraged for large-scale disinformation and misinformation campaigns."
     },
     {
       "id": "gai-hallucination",
@@ -284,7 +301,8 @@
             }
           ]
         }
-      ]
+      ],
+      "answer": "Confabulation: the production of confidently stated but erroneous or false content, colloquially called hallucinations or fabrications."
     },
     {
       "id": "rmf-voluntary",
@@ -297,7 +315,8 @@
             "intended to be voluntary"
           ]
         }
-      ]
+      ],
+      "answer": "No. The AI RMF is intended to be voluntary, rights-preserving, non-sector-specific, and use-case agnostic."
     },
     {
       "id": "retiring-ai-systems",
@@ -309,7 +328,8 @@
             "phasing out AI systems safely"
           ]
         }
-      ]
+      ],
+      "answer": "Have processes and procedures in place for decommissioning and phasing out AI systems safely, in a manner that does not increase risks or decrease the organization's trustworthiness (GOVERN 1.7)."
     },
     {
       "id": "gai-environment",
@@ -322,7 +342,8 @@
             "high compute resource utilization"
           ]
         }
-      ]
+      ],
+      "answer": "Training and operating generative AI models uses high compute resources, and the related outcomes may adversely impact ecosystems."
     },
     {
       "id": "rmf-legislation",
@@ -345,7 +366,8 @@
             }
           ]
         }
-      ]
+      ],
+      "answer": "The National Artificial Intelligence Initiative Act of 2020 (P.L. 116-283)."
     },
     {
       "id": "gai-data-privacy",
@@ -358,7 +380,8 @@
             "de-anonymization"
           ]
         }
-      ]
+      ],
+      "answer": "Yes. Data privacy risk covers leakage and unauthorized use, disclosure, or de-anonymization of biometric, health, location, or other personally identifiable information or sensitive data."
     },
     {
       "id": "ai-actors",
@@ -370,7 +393,8 @@
             "those who play an active role in the AI system lifecycle"
           ]
         }
-      ]
+      ],
+      "answer": "Those who play an active role in the AI system lifecycle, including organizations and individuals that deploy or operate AI (OECD definition)."
     },
     {
       "id": "rmf-base-characteristic",
@@ -383,7 +407,8 @@
             "necessary condition of trustworthiness"
           ]
         }
-      ]
+      ],
+      "answer": "Valid and reliable. It is a necessary condition of trustworthiness and the base for the other characteristics."
     },
     {
       "id": "gai-overreliance",
@@ -397,7 +422,8 @@
             "automation bias"
           ]
         }
-      ]
+      ],
+      "answer": "Human-AI configuration risk: interactions between a human and an AI system can lead to anthropomorphizing the system, algorithmic aversion, automation bias, over-reliance, or emotional entanglement."
     },
     {
       "id": "csf-supplier-expectations",
@@ -410,7 +436,8 @@
             "Target Profile can help express"
           ]
         }
-      ]
+      ],
+      "answer": "Use a Target Profile to express the organization's cybersecurity risk management requirements and expectations to suppliers, partners, and other third parties as a target for them to achieve."
     },
     {
       "id": "govern-rmf-vs-csf",
@@ -431,7 +458,8 @@
             "risk management strategy"
           ]
         }
-      ]
+      ],
+      "answer": "In the AI RMF, GOVERN cultivates a culture of AI risk management and is cross-cutting, informing the MAP, MEASURE, and MANAGE functions. In CSF 2.0, GOVERN (GV) establishes, communicates, and monitors the organization's cybersecurity risk management strategy, expectations, and policy, informing the other five Functions."
     },
     {
       "id": "csf-current-vs-target",
@@ -450,7 +478,8 @@
             "A Target Profile specifies the desired outcomes"
           ]
         }
-      ]
+      ],
+      "answer": "A Current Profile specifies the Core outcomes an organization is currently achieving (or attempting to achieve); a Target Profile specifies the desired outcomes it has selected and prioritized for its cybersecurity risk management objectives."
     },
     {
       "id": "gai-content-and-bias",
@@ -469,7 +498,8 @@
             "Harmful Bias or Homogenization: Amplification"
           ]
         }
-      ]
+      ],
+      "answer": "Dangerous, Violent, or Hateful Content covers violent, inciting, radicalizing, threatening, or hateful content. Harmful Bias or Homogenization covers amplification of historical, societal, and systemic biases, performance disparities, and undesired homogeneity in outputs."
     },
     {
       "id": "rmf-residual-risk-and-manage",
@@ -488,7 +518,8 @@
             "MANAGE 1.4: Negative residual risks"
           ]
         }
-      ]
+      ],
+      "answer": "Residual risk is the risk remaining after risk treatment. MANAGE 1.4 requires negative residual risks to downstream acquirers and end users to be documented."
     },
     {
       "id": "oos-pizza",
