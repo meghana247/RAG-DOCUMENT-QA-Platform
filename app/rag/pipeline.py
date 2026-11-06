@@ -119,6 +119,32 @@ class RagPipeline:
         timings.rerank_ms = clock.lap()
         return selected
 
+    async def retrieve(
+        self,
+        db: AsyncSession,
+        *,
+        query: str,
+        user_id: uuid.UUID,
+        document_id: uuid.UUID | None = None,
+    ) -> list[RetrievedChunk]:
+        """Embed and retrieve, without contextualising or generating.
+
+        The same retrieval path `answer` takes, exposed so the offline evaluation
+        measures what production actually runs rather than a re-implementation
+        of it that can quietly drift.
+        """
+        clock = _Clock()
+        query_embedding = await self._embedder.embed_query(query)
+        return await self._retrieve(
+            db,
+            search_query=query,
+            query_embedding=query_embedding,
+            user_id=user_id,
+            document_id=document_id,
+            timings=StageTimings(),
+            clock=clock,
+        )
+
     async def answer(
         self,
         db: AsyncSession,

@@ -5,10 +5,11 @@ change that helps three questions and quietly breaks twenty gets shipped. These
 are the standard measures; all take a per-question list of booleans marking which
 retrieved positions were relevant, in rank order.
 """
+
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 
 def hit_rate(relevance: list[bool]) -> float:
@@ -56,6 +57,14 @@ def ndcg_at_k(relevance: list[bool], total_relevant: int, k: int) -> float:
 
 @dataclass
 class EvalResult:
+    """Ranking metrics are averaged over answerable questions only.
+
+    Unanswerable questions have nothing to rank, so folding them into hit rate
+    or precision would mix two different behaviours into one number. They are
+    reported on their own as `refusal_rate`: the share where retrieval correctly
+    returned nothing.
+    """
+
     name: str
     questions: int
     hit_rate: float
@@ -65,20 +74,28 @@ class EvalResult:
     ndcg: float
     p50_latency_ms: float
     p95_latency_ms: float
+    unanswerable: int = 0
+    refusal_rate: float = 0.0
 
     def as_row(self) -> str:
         return (
             f"{self.name:<24} {self.hit_rate:>7.3f} {self.recall_at_k:>9.3f} "
-            f"{self.precision_at_k:>10.3f} {self.mrr:>7.3f} {self.ndcg:>7.3f} "
-            f"{self.p50_latency_ms:>9.0f} {self.p95_latency_ms:>9.0f}"
+            f"{self.precision_at_k:>8.3f} {self.mrr:>7.3f} {self.ndcg:>7.3f} "
+            f"{self.refusal_rate:>8.3f} {self.p50_latency_ms:>8.0f} {self.p95_latency_ms:>8.0f}"
         )
 
     @staticmethod
     def header() -> str:
         return (
             f"{'configuration':<24} {'hit@k':>7} {'recall@k':>9} "
-            f"{'prec@k':>10} {'MRR':>7} {'nDCG':>7} {'p50 ms':>9} {'p95 ms':>9}"
+            f"{'prec@k':>8} {'MRR':>7} {'nDCG':>7} {'refusal':>8} {'p50 ms':>8} {'p95 ms':>8}"
         )
+
+    def as_dict(self) -> dict[str, float | int | str]:
+        return {
+            key: round(value, 4) if isinstance(value, float) else value
+            for key, value in asdict(self).items()
+        }
 
 
 def percentile(values: list[float], fraction: float) -> float:
@@ -94,9 +111,13 @@ def aggregate(
     per_question: list[tuple[list[bool], int]],
     latencies: list[float],
     k: int,
+    refusals: list[bool] | None = None,
 ) -> EvalResult:
+    refusals = refusals or []
+    refusal_rate = (sum(refusals) / len(refusals)) if refusals else 0.0
+
     if not per_question:
-        return EvalResult(name, 0, 0, 0, 0, 0, 0, 0, 0)
+        return EvalResult(name, 0, 0, 0, 0, 0, 0, 0, 0, len(refusals), refusal_rate)
 
     count = len(per_question)
     return EvalResult(
@@ -109,4 +130,6 @@ def aggregate(
         ndcg=sum(ndcg_at_k(r, t, k) for r, t in per_question) / count,
         p50_latency_ms=percentile(latencies, 0.50),
         p95_latency_ms=percentile(latencies, 0.95),
+        unanswerable=len(refusals),
+        refusal_rate=refusal_rate,
     )

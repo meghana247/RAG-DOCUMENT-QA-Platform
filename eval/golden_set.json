@@ -1,38 +1,524 @@
 {
-  "description": "Labelled questions for retrieval evaluation. Each question lists substrings that a correct passage must contain. Substring matching is a proxy for human relevance labels: cheap, deterministic, and good enough to compare configurations against each other. Replace these with questions over your own corpus.",
+  "version": 2,
+  "description": "Labelled retrieval questions over the three public-domain NIST documents in eval/corpus. Each answerable question lists one or more evidence items: the facts a correct answer needs. A retrieved chunk satisfies an evidence item when it comes from that item's document (if one is given) and contains every listed substring. An item can list `any_of` alternatives when the corpus states the same fact in more than one place or wording. Matching ignores case, whitespace and Unicode ligatures, so PDF extraction quirks such as 'c onﬁdently' do not break labels. Multi-hop questions list several evidence items; recall is the share of them that retrieval surfaces. Unanswerable questions have no evidence and are scored separately: the correct behaviour is to retrieve nothing.",
   "questions": [
     {
-      "id": "exact-identifier",
-      "question": "What is invoice number INV-2024-0871 for?",
-      "must_contain": ["INV-2024-0871"],
-      "rationale": "Exact identifier. Pure vector search typically misses these; the keyword leg exists for this case."
+      "id": "rmf-govern-1-6",
+      "category": "exact-identifier",
+      "question": "What does GOVERN 1.6 in the AI RMF require?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "GOVERN 1.6: Mechanisms are in place to inventory"
+          ]
+        }
+      ]
     },
     {
-      "id": "paraphrase",
-      "question": "How do I cancel my subscription?",
-      "must_contain": ["terminate", "cancel"],
-      "match": "any",
-      "rationale": "Wording differs from the document. Keyword search alone fails; the vector leg carries this one."
+      "id": "rmf-manage-1-4",
+      "category": "exact-identifier",
+      "question": "What is MANAGE 1.4 about?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "MANAGE 1.4: Negative residual risks"
+          ]
+        }
+      ]
     },
     {
-      "id": "acronym",
-      "question": "What does the SLA guarantee for uptime?",
-      "must_contain": ["SLA"],
-      "rationale": "Acronyms embed poorly but match lexically."
+      "id": "rmf-measure-2-11",
+      "category": "exact-identifier",
+      "question": "Which outcomes does MEASURE 2.11 cover?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "MEASURE 2.11: Fairness and bias"
+          ]
+        }
+      ]
     },
     {
-      "id": "multi-hop",
-      "question": "Compare the Q1 and Q2 revenue figures",
-      "must_contain": ["Q1", "Q2"],
-      "match": "all",
-      "rationale": "Needs two distinct passages. Tests whether MMR keeps the result set diverse instead of returning five copies of the Q1 paragraph."
+      "id": "csf-gv-sc",
+      "category": "exact-identifier",
+      "question": "What is the GV.SC category in CSF 2.0?",
+      "evidence": [
+        {
+          "any_of": [
+            {
+              "document": "nist-csf-2.0.pdf",
+              "contains": [
+                "Cybersecurity Supply Chain Risk Management (GV.SC)"
+              ]
+            },
+            {
+              "document": "nist-csf-2.0.pdf",
+              "contains": [
+                "Cybersecurity Supply Chain Risk Management GV.SC"
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "unanswerable",
-      "question": "What is the airspeed velocity of an unladen swallow?",
-      "must_contain": [],
-      "expect_no_results": true,
-      "rationale": "Nothing should clear the relevance floor. A system that always returns its top-k will hallucinate here."
+      "id": "csf-pr-aa",
+      "category": "exact-identifier",
+      "question": "What does the PR.AA category cover?",
+      "evidence": [
+        {
+          "any_of": [
+            {
+              "document": "nist-csf-2.0.pdf",
+              "contains": [
+                "Identity Management, Authentication, and Access Control (PR.AA)"
+              ]
+            },
+            {
+              "document": "nist-csf-2.0.pdf",
+              "contains": [
+                "Identity Management, Authentication, and Access Control PR.AA"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-executive-order",
+      "category": "exact-identifier",
+      "question": "Which executive order was the Generative AI Profile written under?",
+      "evidence": [
+        {
+          "document": "nist-ai-600-1-genai-profile.pdf",
+          "contains": [
+            "14110"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rmf-tevv",
+      "category": "acronym",
+      "question": "What does TEVV stand for?",
+      "evidence": [
+        {
+          "any_of": [
+            {
+              "document": "nist-ai-rmf-1.0.pdf",
+              "contains": [
+                "test, evaluation, verification, and validation"
+              ]
+            },
+            {
+              "document": "nist-ai-rmf-1.0.pdf",
+              "contains": [
+                "Evaluation, Verification, and Validation (TEVV)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-cbrn",
+      "category": "acronym",
+      "question": "What does CBRN mean in the generative AI profile?",
+      "evidence": [
+        {
+          "document": "nist-ai-600-1-genai-profile.pdf",
+          "contains": [
+            "chemical, biological, radiological, or nuclear"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "csf-erm",
+      "category": "acronym",
+      "question": "How does ERM relate to cybersecurity governance?",
+      "evidence": [
+        {
+          "document": "nist-csf-2.0.pdf",
+          "contains": [
+            "enterprise risk management (ERM)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rmf-residual-risk",
+      "category": "definition",
+      "question": "How does the AI RMF define residual risk?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "risk remaining after risk treatment"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "risk-definition",
+      "category": "definition",
+      "question": "How is risk defined in the context of the AI RMF?",
+      "evidence": [
+        {
+          "contains": [
+            "composite measure of an event"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "csf-community-profile",
+      "category": "definition",
+      "question": "What is a Community Profile in CSF 2.0?",
+      "evidence": [
+        {
+          "document": "nist-csf-2.0.pdf",
+          "contains": [
+            "Community Profile is a baseline of CSF outcomes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "csf-tiers",
+      "category": "definition",
+      "question": "What are the four CSF Tiers?",
+      "evidence": [
+        {
+          "document": "nist-csf-2.0.pdf",
+          "contains": [
+            "Partial (Tier 1)",
+            "Adaptive (Tier 4)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "csf-functions",
+      "category": "definition",
+      "question": "What are the six Functions of the CSF Core?",
+      "evidence": [
+        {
+          "document": "nist-csf-2.0.pdf",
+          "contains": [
+            "GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, and RECOVER"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rmf-trustworthy-characteristics",
+      "category": "definition",
+      "question": "Which characteristics make an AI system trustworthy according to the AI RMF?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "valid and reliable, safe, secure and resilient"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-profile-definition",
+      "category": "definition",
+      "question": "What is an AI RMF profile?",
+      "evidence": [
+        {
+          "any_of": [
+            {
+              "document": "nist-ai-600-1-genai-profile.pdf",
+              "contains": [
+                "implementation of the AI RMF functions, categories, and subcategories for a specific"
+              ]
+            },
+            {
+              "document": "nist-ai-rmf-1.0.pdf",
+              "contains": [
+                "use-case profiles are implementations of the AI RMF functions"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-information-integrity",
+      "category": "definition",
+      "question": "What is the Information Integrity risk of generative AI?",
+      "evidence": [
+        {
+          "document": "nist-ai-600-1-genai-profile.pdf",
+          "contains": [
+            "Information Integrity: Lowered barrier to entry"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-hallucination",
+      "category": "paraphrase",
+      "question": "What does NIST call it when a generative model makes up facts and states them confidently?",
+      "evidence": [
+        {
+          "any_of": [
+            {
+              "document": "nist-ai-600-1-genai-profile.pdf",
+              "contains": [
+                "confidently stated but erroneous"
+              ]
+            },
+            {
+              "document": "nist-ai-600-1-genai-profile.pdf",
+              "contains": [
+                "refers to a phenomenon in which GAI systems generate"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rmf-voluntary",
+      "category": "paraphrase",
+      "question": "Is an organization legally required to adopt the AI risk framework?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "intended to be voluntary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retiring-ai-systems",
+      "category": "paraphrase",
+      "question": "What should organizations do when retiring an AI system?",
+      "evidence": [
+        {
+          "contains": [
+            "phasing out AI systems safely"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-environment",
+      "category": "paraphrase",
+      "question": "Why do large generative models raise environmental concerns?",
+      "evidence": [
+        {
+          "document": "nist-ai-600-1-genai-profile.pdf",
+          "contains": [
+            "high compute resource utilization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rmf-legislation",
+      "category": "paraphrase",
+      "question": "Which law told NIST to build the AI risk framework?",
+      "evidence": [
+        {
+          "any_of": [
+            {
+              "document": "nist-ai-rmf-1.0.pdf",
+              "contains": [
+                "National Artificial Intelligence Initiative Act of 2020"
+              ]
+            },
+            {
+              "document": "nist-ai-rmf-1.0.pdf",
+              "contains": [
+                "National AI Initiative Act of 2020"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-data-privacy",
+      "category": "paraphrase",
+      "question": "Can personal health or location data leak out of a generative AI system?",
+      "evidence": [
+        {
+          "document": "nist-ai-600-1-genai-profile.pdf",
+          "contains": [
+            "de-anonymization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-actors",
+      "category": "paraphrase",
+      "question": "Who counts as an AI actor?",
+      "evidence": [
+        {
+          "contains": [
+            "those who play an active role in the AI system lifecycle"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rmf-base-characteristic",
+      "category": "paraphrase",
+      "question": "Which trustworthiness characteristic forms the base for all the others?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "necessary condition of trustworthiness"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-overreliance",
+      "category": "paraphrase",
+      "question": "Why might people trust a chatbot too much or get emotionally attached to it?",
+      "evidence": [
+        {
+          "document": "nist-ai-600-1-genai-profile.pdf",
+          "contains": [
+            "anthropomorphizing",
+            "automation bias"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "csf-supplier-expectations",
+      "category": "paraphrase",
+      "question": "How can a company tell its suppliers what security practices it expects of them?",
+      "evidence": [
+        {
+          "document": "nist-csf-2.0.pdf",
+          "contains": [
+            "Target Profile can help express"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "govern-rmf-vs-csf",
+      "category": "multi-hop",
+      "question": "How does the GOVERN function differ between the AI RMF and the Cybersecurity Framework 2.0?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "The GOVERN function:",
+            "culture of risk management"
+          ]
+        },
+        {
+          "document": "nist-csf-2.0.pdf",
+          "contains": [
+            "GOVERN (GV)",
+            "risk management strategy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "csf-current-vs-target",
+      "category": "multi-hop",
+      "question": "What is the difference between a Current Profile and a Target Profile in CSF 2.0?",
+      "evidence": [
+        {
+          "document": "nist-csf-2.0.pdf",
+          "contains": [
+            "Current Profile specifies"
+          ]
+        },
+        {
+          "document": "nist-csf-2.0.pdf",
+          "contains": [
+            "A Target Profile specifies the desired outcomes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gai-content-and-bias",
+      "category": "multi-hop",
+      "question": "Which generative AI risks concern violent or hateful content, and which concern bias?",
+      "evidence": [
+        {
+          "document": "nist-ai-600-1-genai-profile.pdf",
+          "contains": [
+            "Dangerous, Violent, or Hateful Content: Eased production"
+          ]
+        },
+        {
+          "document": "nist-ai-600-1-genai-profile.pdf",
+          "contains": [
+            "Harmful Bias or Homogenization: Amplification"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rmf-residual-risk-and-manage",
+      "category": "multi-hop",
+      "question": "What is residual risk, and which MANAGE subcategory deals with it?",
+      "evidence": [
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "risk remaining after risk treatment"
+          ]
+        },
+        {
+          "document": "nist-ai-rmf-1.0.pdf",
+          "contains": [
+            "MANAGE 1.4: Negative residual risks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oos-pizza",
+      "category": "unanswerable",
+      "question": "What is the recipe for a classic margherita pizza?",
+      "evidence": []
+    },
+    {
+      "id": "oos-world-cup",
+      "category": "unanswerable",
+      "question": "Who won the 2018 FIFA World Cup?",
+      "evidence": []
+    },
+    {
+      "id": "oos-kubernetes",
+      "category": "unanswerable",
+      "question": "How do I configure horizontal pod autoscaling in Kubernetes?",
+      "evidence": []
+    },
+    {
+      "id": "oos-gdpr",
+      "category": "unanswerable",
+      "question": "What is the maximum GDPR fine for a data breach?",
+      "evidence": []
+    },
+    {
+      "id": "oos-mercury",
+      "category": "unanswerable",
+      "question": "What is the boiling point of mercury?",
+      "evidence": []
     }
   ]
 }

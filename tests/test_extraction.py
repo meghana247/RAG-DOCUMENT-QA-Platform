@@ -27,6 +27,12 @@ class TestNormalize:
     def test_null_bytes_are_stripped(self):
         assert "\x00" not in normalize("clean\x00text")
 
+    def test_ligatures_are_expanded(self):
+        # pypdf returns typographic ligatures as single code points. Left in place,
+        # "conﬁdently" never matches a search for "confidently", in either the
+        # full-text index or the embedding model's vocabulary.
+        assert normalize("conﬁdently eﬀective ﬂow") == "confidently effective flow"
+
 
 class TestDispatch:
     def test_plain_text(self):

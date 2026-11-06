@@ -9,6 +9,7 @@ from __future__ import annotations
 import io
 import logging
 import re
+import unicodedata
 from collections.abc import Callable
 
 from app.core.exceptions import DocumentProcessingError, UnsupportedMediaTypeError
@@ -28,6 +29,11 @@ _SOFT_HYPHEN_BREAK = re.compile(r"(\w)-\n(\w)")
 
 
 def normalize(text: str) -> str:
+    # NFKC folds compatibility characters to their plain form — chiefly the
+    # ligatures (ﬁ, ﬂ, ﬀ) that PDF extraction emits. Without it a word like
+    # "conﬁdently" is invisible to a search for "confidently": Postgres stems it
+    # as a different token, and the embedding tokenizer sees an unknown symbol.
+    text = unicodedata.normalize("NFKC", text)
     text = text.replace("\x00", "").replace("­", "")
     text = _SOFT_HYPHEN_BREAK.sub(r"\1\2", text)
     text = _HORIZONTAL_WS.sub(" ", text)
