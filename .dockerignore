@@ -17,3 +17,4 @@ docs
 !README.md
 htmlcov
 .coverage
+frontend

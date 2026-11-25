@@ -139,8 +139,8 @@ docker compose up --build -d
 docker compose exec api alembic upgrade head
 ```
 
-API at `http://localhost:8000`, docs at `/docs` (disabled when
-`ENVIRONMENT=production`).
+Web app at `http://localhost:3000`, API at `http://localhost:8000`, docs at
+`/docs` (disabled when `ENVIRONMENT=production`).
 
 Migrations are a deploy step, never a startup side effect: `create_all()` at boot
 races across replicas, cannot express an index build or a backfill, and offers no
@@ -161,6 +161,20 @@ pip install -r requirements-dev.txt
 alembic upgrade head
 uvicorn app.main:app --reload
 ```
+
+### Frontend
+
+React + TypeScript + Tailwind (Vite), in `frontend/`. Four screens: sign-in,
+document upload with live indexing status, streaming chat with clickable
+citations, and an evaluation dashboard that renders `eval/results/retrieval.json`
+against the CI thresholds.
+
+```bash
+cd frontend && npm install && npm run dev   # http://localhost:3000, proxies /api to :8000
+```
+
+In Docker, nginx serves the build and proxies `/api` to the API container with
+buffering off so streamed answers arrive token by token.
 
 ### Running the integration tests
 
@@ -260,5 +274,5 @@ boot beats discovering it from production traffic.
 
 FastAPI · Postgres 16 + pgvector (HNSW) · SQLAlchemy 2.0 async · Alembic ·
 sentence-transformers (`all-MiniLM-L6-v2`, 384-dim) ·
-`cross-encoder/ms-marco-MiniLM-L-6-v2` · Groq (`llama-3.3-70b-versatile`) ·
-JWT + bcrypt · Docker
+`cross-encoder/ms-marco-MiniLM-L-6-v2` · Groq (`openai/gpt-oss-120b`) ·
+JWT + bcrypt · React + TypeScript + Tailwind · Docker

@@ -33,6 +33,16 @@ services:
       # Model cache survives rebuilds, so an image rebuild does not re-download.
       - hfcache:/home/app/.cache/huggingface
 
+  web:
+    # Context is the repo root so the image can bundle eval/results for the Evaluation page.
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
 volumes:
   pgdata:
   hfcache:

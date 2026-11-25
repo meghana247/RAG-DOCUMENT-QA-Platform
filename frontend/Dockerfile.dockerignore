@@ -1,0 +1,11 @@
+# Used instead of the root .dockerignore when building frontend/Dockerfile.
+**/node_modules
+**/dist
+.git
+.venv
+venv
+app
+tests
+migrations
+.env
+.env.*
