@@ -44,7 +44,8 @@ WORKDIR /app
 # unlucky user wait ~30s, and makes the container depend on HuggingFace being
 # reachable at runtime — hence TRANSFORMERS_OFFLINE above.
 USER app
-RUN python -c "\
+# Offline mode is set in ENV above for runtime; the bake step itself must be allowed online.
+RUN TRANSFORMERS_OFFLINE=0 HF_HUB_OFFLINE=0 python -c "\
 from sentence_transformers import SentenceTransformer, CrossEncoder; \
 SentenceTransformer('all-MiniLM-L6-v2'); \
 CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')"

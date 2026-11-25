@@ -136,9 +136,10 @@ class RetrievalSettings(BaseSettings):
 
 class GenerationSettings(BaseSettings):
     api_key: SecretStr = SecretStr("")
-    model: str = "llama-3.3-70b-versatile"
+    model: str = "openai/gpt-oss-120b"
     temperature: float = 0.1
-    max_tokens: int = 1024
+    # gpt-oss reasons before answering, and reasoning tokens count against this.
+    max_tokens: int = 2048
     timeout_seconds: float = 60.0
     max_retries: int = 2
 
@@ -153,7 +154,7 @@ class GenerationSettings(BaseSettings):
     # Rewrite follow-up questions into standalone ones before retrieval.
     # Costs one extra (small) LLM call per message when history exists.
     contextualize_queries: bool = True
-    contextualize_model: str = "llama-3.1-8b-instant"
+    contextualize_model: str = "openai/gpt-oss-20b"
 
 
 class ObservabilitySettings(BaseSettings):
